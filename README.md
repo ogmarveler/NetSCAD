@@ -57,8 +57,8 @@ var axisSettings = new AxisSettings(
      measureType: Selector.MeasureType.Imperial,
      minX: FractionalInch.Inch1.ToMillimeters(-12), // can set as inches
      maxX: 304.8, // can set as mm
-     minY: FractionalInch.Inch1.ToMillimeters(-4), // can set axes to different lengths
-     maxY: FractionalInch.Inch1.ToMillimeters(0), // negative axis only can be applied (insets, etc.)
+     minY: FractionalInch.Inch1.ToMillimeters(-4), // negative axis only can be applied (insets, etc.)
+     maxY: FractionalInch.Inch1.ToMillimeters(0), // can set axes to different lengths
      minZ: -152.4, // can be to up to 1/4" nearest precision
      maxZ: FractionalInch.Inch4.ToMillimeters(3) // fractional axes can be used (3/4")
 );
