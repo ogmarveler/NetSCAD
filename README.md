@@ -69,7 +69,7 @@ GUI.SetAxis(axisSettings, addToExistOutputFile: true).GetAwaiter().GetResult();
 ```
 
 ## Parameters
-The main two functions used are a ``new AxisSettings()`` class that holds all the configurations details set by the user. The other is the create axis function, ``GUI.SetAxis``. The ``AxisSettings()`` function can be called with the following parameters below, or it can be called without any. If being called without any parameters, the default grid will output, based on whether imperial or metric meaasure type is selected.
+The main two functions used are a ``new AxisSettings()`` class that holds all the configurations details set by the user. The other is the create axis function, ``GUI.SetAxis``. The ``AxisSettings()`` function can be called with the following parameters below, or it can be called without any. If being called without any parameters, the default grid will output, based on whether imperial or metric measure type is selected.
 
 Default grid (no parameters supplied): 300x300x300mm, Metric, Light Background (OpenSCAD)
 
@@ -140,9 +140,9 @@ module Get_Light_Imperial_12x12x12_Origin(colorVal = "Black", alpha = 1) {
 # Metric Axis 300x300x300mm
 ![Metric Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_metric.PNG)
 
-# Imperial Different X,Y,Z Axis 12x12x12in
+# Imperial Different X,Y,Z Axis 3x3x4in
 ![Imperial Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_imperial_custom.PNG)
 
-# Metric Different X,Y,Z Axis 300x300x300mm
+# Metric Different X,Y,Z Axis 80x80x120mm
 ![Metric Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_metric_custom.PNG)
 
