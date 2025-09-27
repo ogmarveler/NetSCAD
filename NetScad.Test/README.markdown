@@ -15,7 +15,7 @@ Contains a collection of tools and libraries to facilitate 3D modeling in OpenSC
 
 ## Libraries
 NetSCAD includes the following libraries:
-- **NetSCAD.Core**: Core functionalities and base classes for 3D modeling.
+- **NetSCAD.Core**: Core functionalities and base classes for 3D axis modeling.
 - **NetSCAD.Axis**: Automation of custom Imperial and Metric axes in OpenSCAD.
 - **NetSCAD.Test**: Simple console app with top-line statements to run axis generation
 
@@ -69,15 +69,31 @@ GUI.SetAxis(axisSettings, addToExistOutputFile: true).GetAwaiter().GetResult();
 ```
 
 ## Parameters
-The main two functions used are an ``new AxisSettings()`` class that holds all the configurations details set by the user. The other is the create axis function, ``GUI.SetAxis``. The ``AxisSettings()`` function can be called with the following parameters below, or it can be called without any. If being called without any parameters, the default grid will output, based on whether imperial or metric meaasure type is selected.
+The main two functions used are a ``new AxisSettings()`` class that holds all the configurations details set by the user. The other is the create axis function, ``GUI.SetAxis``. The ``AxisSettings()`` function can be called with the following parameters below, or it can be called without any. If being called without any parameters, the default grid will output, based on whether imperial or metric meaasure type is selected.
 
 Default grid (no parameters supplied): 300x300x300mm, Metric, Light Background (OpenSCAD)
 
-X axis: MinX and MaxX
-Y axis: MinY and MaxY
-Z axis: MinZ and MaxZ
-Measure Type: Imperial or Metric
-OpenSCAD Background: Light or Dark
+```csharp
+// X axis:
+double MinX;
+double MaxX;
+
+// Y axis:
+double MinY;
+double MaxY;
+
+// Z axis:
+double MinZ;
+double MaxZ;
+
+// Measure Type:
+Selector.MeasureType.Imperial;
+Selector.MeasureType.Metric;
+
+// Axis Color based on OpenSCAD Background:
+Selector.BackgroundType.Dark;
+Selector.BackgroundType.Light;
+```
 
 ## Measurements
 For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
@@ -89,7 +105,7 @@ An ``enum FractionalInch`` selector allows for supplying Min and Max coordinates
 FractionalInch.Inch1.ToMillimeters(6); // 6 inches or 152.4mm
 FractionalInch.Inch2.ToMillimeters(1); // 1/2" or 12.7mm
 FractionalInch.Inch4.ToMillimeters(3); // 3/4" or 19.05mm
-
+```
 
 ## Output
 The structure of the axis SCAD files are as follows. Only one reference in your main SCAD files needs to be made, and this is to the ``Axis/axes.scad`` file that stores all of the generated axis modules. You will need to apply the statement ``use <Axis/axes.scad>;`` in your main file, and then just simply call the axis module of your choice. The module can be called without any arguments, or with a different ``color`` and/or ``alpha`` parameters.
@@ -102,7 +118,10 @@ The structure of the axis SCAD files are as follows. Only one reference in your 
 ```
 
 ## Examples
-This is what the module of a generated axis looks like. The libraries allow for tailoring the X, Y, and Z axes to be different lengths and have different beginning and end points. This is primarily for use cases where objects may be very on one axis but not on another. Another feature is the ability to measure insets from screws, or anything that would need to be referenced for multi-part 3D prints.
+This is what the module of a generated axis looks like. 
+The libraries allow for tailoring the X, Y, and Z axes to be different lengths and have different beginning and end points. 
+This is primarily for use cases where objects may be very on one axis but not on another. 
+Another feature is the ability to measure insets from screws, or anything that would need to be referenced for multi-part 3D prints.
 
 ```scad
 // 3D Axis Module - Light Imperial 12x12x12 Origin
@@ -116,14 +135,14 @@ module Get_Light_Imperial_12x12x12_Origin(colorVal = "Black", alpha = 1) {
 ```
 
 # Imperial Axis 12x12x12
-![Imperial Axis 12x12x12]()
+![Imperial Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_imperial.PNG)
 
 # Metric Axis 12x12x12
-![Metric Axis 12x12x12]()
+![Metric Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_metric.PNG)
 
 # Imperial Different X,Y,Z Axis 12x12x12
-![Imperial Different X,Y,Z Axis 12x12x12]()
+![Imperial Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_imperial_custom.PNG)
 
 # Metric Different X,Y,Z Axis 12x12x12
-![Metric Different X,Y,Z Axis 12x12x12]()
+![Metric Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_metric_custom.PNG)
 
