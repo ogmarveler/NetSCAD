@@ -1,0 +1,129 @@
+# NetSCAD - 3D Modeling Tools for OpenSCAD built with .NET
+
+## Description
+Contains a collection of tools and libraries to facilitate 3D modeling in OpenSCAD using .NET languages. This project aims to simplify the process of creating complex 3D models by providing reusable components and utilities. Currently, it includes libraries for automating the creation of custom Imperial and Metric axes. This allows for more precise 3D modeling used in 3D printing.
+
+## Table of Contents
+- [Libraries](#libraries)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Parameters](#parameters)
+- [Measurements](#measurements)
+- [Output](#output)
+- [Examples](#examples)
+
+## Libraries
+NetSCAD includes the following libraries:
+- **NetSCAD.Core**: Core functionalities and base classes for 3D modeling.
+- **NetSCAD.Axis**: Automation of custom Imperial and Metric axes in OpenSCAD.
+- **NetSCAD.Test**: Simple console app with top-line statements to run axis generation
+
+Core and Axis use .NET Standard 2.1. The Test console app is .NET 8.
+
+## Prerequisites
+You need to have the following installed: 
+
+1. [OpenSCAD](https://openscad.org/downloads.html)
+2. [.NET 8.0 SDK or later.](https://dotnet.microsoft.com/en-us/download)
+
+## Installation
+1. Clone the repo and add the **NetSCAD.Axis** and **NetSCAD.Core** libraries as project references to your main .NET project.
+2. Unless you're using the ``NetSCAD.Test`` project included, create an ``Axis`` folder in your main project. Axes will be stored in this folder, and the ``axes.scad`` file will be the file to call the modules from. References to each one, along with the dimensions for each axis are saved in this file for easy reference.
+3. If you're using Visual Studio 2022, you might need to create a blank ``axes.scad`` file outside of VS2022, and then put it in the ``Axis`` folder. The ``NetSCAD.Test`` project already has the folder and file, so if using the ones included with the libraries, then this step can be ignored.
+
+```bash
+gh repo clone ogmarveler/NetSCAD
+```
+
+## Usage
+Varying axes of different sizes, measurement types, colors, and combination of both metric and imperial measurements can be applied within the same SCAD project. Axes are managed in an aggregate SCAD file and are called as modules within your SCAD project. The libraries manage updates to existing axes as well as provide the ability for multiple axis types to be used in your project.
+
+Example of generating new axis
+```csharp
+// Namespaces used for this module
+using NetScad.Core.Measurements;
+using NetScad.Core.SCAD.Models;
+using NetScad.Core.SCAD.Modules;
+using static NetScad.Core.SCAD.Utility.AxisConfig;
+
+// Apply custom axis settings - will save to a SCAD file as a module
+// For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
+// For Imperial, Axis will be set to 1/4, 1/8, 1/16, and 1/32 inch increments.
+// For larger measurements, adjust Min, Max, and Scale accordingly to keep axis readable.
+var projectDir = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+var axisSettings = new AxisSettings(
+     backgroundType: Selector.BackgroundType.Dark,
+     measureType: Selector.MeasureType.Imperial,
+     minX: FractionalInch.Inch1.ToMillimeters(-12), // can set as inches
+     maxX: 304.8, // can set as mm
+     minY: FractionalInch.Inch1.ToMillimeters(-4), // can set axes to different lengths
+     maxY: FractionalInch.Inch1.ToMillimeters(0), // negative axis only can be applied (insets, etc.)
+     minZ: -152.4, // can be to up to 1/4" nearest precision
+     maxZ: FractionalInch.Inch4.ToMillimeters(3) // fractional axes can be used (3/4")
+);
+
+// Generates (or updates a previously saved axis) and stores it in an aggregate axes file
+// The new axis can then be called as a module from your main SCAD project file
+GUI.SetAxis(axisSettings, addToExistOutputFile: true).GetAwaiter().GetResult();
+```
+
+## Parameters
+The main two functions used are an ``new AxisSettings()`` class that holds all the configurations details set by the user. The other is the create axis function, ``GUI.SetAxis``. The ``AxisSettings()`` function can be called with the following parameters below, or it can be called without any. If being called without any parameters, the default grid will output, based on whether imperial or metric meaasure type is selected.
+
+Default grid (no parameters supplied): 300x300x300mm, Metric, Light Background (OpenSCAD)
+
+X axis: MinX and MaxX
+Y axis: MinY and MaxY
+Z axis: MinZ and MaxZ
+Measure Type: Imperial or Metric
+OpenSCAD Background: Light or Dark
+
+## Measurements
+For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
+For Imperial, Axis will be set to 1/4, 1/8, 1/16, and 1/32 inch increments.
+
+An ``enum FractionalInch`` selector allows for supplying Min and Max coordinates on all 3 axes (X, Y, and Z) to be input in 1/64 - 1 inch units. This makes it easier to not have to do the conversions before hand. The functions will automatically adjust supplied inputs to the nearest increment so that the axes display identical to how a ruler would evenly space increments. For example, if 150mm is supplied as an input, but imperial measurement type is selected, the function will adjust it to 152.4mm so that all increments are exact to the desired axes output. The same concept occurs with metric inputs supplied as well.
+
+```csharp
+FractionalInch.Inch1.ToMillimeters(6); // 6 inches or 152.4mm
+FractionalInch.Inch2.ToMillimeters(1); // 1/2" or 12.7mm
+FractionalInch.Inch4.ToMillimeters(3); // 3/4" or 19.05mm
+
+
+## Output
+The structure of the axis SCAD files are as follows. Only one reference in your main SCAD files needs to be made, and this is to the ``Axis/axes.scad`` file that stores all of the generated axis modules. You will need to apply the statement ``use <Axis/axes.scad>;`` in your main file, and then just simply call the axis module of your choice. The module can be called without any arguments, or with a different ``color`` and/or ``alpha`` parameters.
+
+```
+| Files                       | In Your SCAD File       | Optional parameters |
+| --------------------------- |:-----------------------:| -------------------:|
+| Axis/axes.scad              | use <Axis/axes.scad>;   |                     |
+| Axis/custom__axis_name.scad | Get_Custom_Axis_Name(); | colorVal, alpha     |
+```
+
+## Examples
+This is what the module of a generated axis looks like. The libraries allow for tailoring the X, Y, and Z axes to be different lengths and have different beginning and end points. This is primarily for use cases where objects may be very on one axis but not on another. Another feature is the ability to measure insets from screws, or anything that would need to be referenced for multi-part 3D prints.
+
+```scad
+// 3D Axis Module - Light Imperial 12x12x12 Origin
+// Calling Method: Get_Light_Imperial_12x12x12_Origin(colorVal, alpha);
+// Settings: MeasureType=Imperial, MinX=0, MaxX=304.8, MinY=0, MaxY=304.8, MinZ=0, MaxZ=304.8
+
+include <light_imperial_12x12x12_origin.scad>;
+module Get_Light_Imperial_12x12x12_Origin(colorVal = "Black", alpha = 1) {
+    light_imperial_12x12x12_origin(colorVal = colorVal, alpha = alpha);
+}
+```
+
+# Imperial Axis 12x12x12
+![Imperial Axis 12x12x12]()
+
+# Metric Axis 12x12x12
+![Metric Axis 12x12x12]()
+
+# Imperial Different X,Y,Z Axis 12x12x12
+![Imperial Different X,Y,Z Axis 12x12x12]()
+
+# Metric Different X,Y,Z Axis 12x12x12
+![Metric Different X,Y,Z Axis 12x12x12]()
+
