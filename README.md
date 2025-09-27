@@ -1,4 +1,4 @@
-# NetSCAD - 3D Modeling Tools for OpenSCAD built with .NET
+# NetSCAD - Tools for OpenSCAD built with .NET
 
 ## Description
 Contains a collection of tools and libraries to facilitate 3D modeling in OpenSCAD using .NET languages. This project aims to simplify the process of creating complex 3D models by providing reusable components and utilities. Currently, it includes libraries for automating the creation of custom Imperial and Metric axes. This allows for more precise 3D modeling used in 3D printing.
