@@ -27,9 +27,13 @@ You need to have the following installed:
 2. [.NET 8.0 SDK or later.](https://dotnet.microsoft.com/en-us/download)
 
 ## Installation
+
 1. Clone the repo and add the **NetSCAD.Axis** and **NetSCAD.Core** libraries as references to your main .NET project.
-2. Unless you're using the ``NetSCAD.Axis`` project included, create a ``Scad/Axis`` folder in your main project. Axes will be stored in this folder, and the ``axes.scad`` file will be the file to call the modules from. References to each one, along with the dimensions for each axis are saved in this file for easy reference.
-3. If you're using Visual Studio 2022, you might need to create a blank ``axes.scad`` file outside of VS2022, and then put it in the ``Scad/Axis`` folder. The ``NetSCAD.Axis`` project already has the folder and file, so if using the ones included with the libraries, then this step can be ignored.
+
+2. Unless using the ``NetSCAD.Axis`` project included, create a ``Scad/Axis`` folder in your main project. Axes will be stored in this folder, and the ``axes.scad`` file will be where to call the modules from. References to each one, along with dimensions for axes are saved here.
+
+3. If using VS 2022, you might need to create a blank ``axes.scad`` file outside of VS2022, and then put it in the ``Scad/Axis`` folder. The ``NetSCAD.Axis`` project already has the folder and file, so if using the ones included with the libraries, then this step can be ignored.
+
 4. A ``sample.scad`` will be in the ``Scad`` folder, which shows an example of calling the various axis modules.
 
 ```bash
