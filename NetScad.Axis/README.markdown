@@ -28,7 +28,7 @@ You need to have the following installed:
 
 ## Installation
 1. Clone the repo and add the **NetSCAD.Axis** and **NetSCAD.Core** libraries as project references to your main .NET project.
-2. Unless you're using the ``NetSCAD.Axis`` project included, create an ``Scad/Axis`` folder in your main project. Axes will be stored in this folder, and the ``axes.scad`` file will be the file to call the modules from. References to each one, along with the dimensions for each axis are saved in this file for easy reference.
+2. Unless you're using the ``NetSCAD.Axis`` project included, create a ``Scad/Axis`` folder in your main project. Axes will be stored in this folder, and the ``axes.scad`` file will be the file to call the modules from. References to each one, along with the dimensions for each axis are saved in this file for easy reference.
 3. If you're using Visual Studio 2022, you might need to create a blank ``axes.scad`` file outside of VS2022, and then put it in the ``Scad/Axis`` folder. The ``NetSCAD.Axis`` project already has the folder and file, so if using the ones included with the libraries, then this step can be ignored.
 4. A ``sample.scad`` will be generated in the ``Scad`` folder, which shows an example of calling the various axis modules.
 
@@ -140,14 +140,14 @@ module Get_Light_Metric_300x300x300_Origin(colorVal = "Black", alpha = 1) {
 ```
 
 # Imperial Axis 12x12x12
-![Imperial Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_imperial.PNG)
+![Imperial Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/117473f9584d88e811d80c64a007ab3d35684cfd/NetScad.Axis/Images/oscadAxis_imperial.PNG)
 
-# Metric Axis 12x12x12
-![Metric Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_metric.PNG)
+# Metric Axis 300x300x300
+![Metric Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/117473f9584d88e811d80c64a007ab3d35684cfd/NetScad.Axis/Images/oscadAxis_metric.PNG)
 
-# Imperial Different X,Y,Z Axis 12x12x12
-![Imperial Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_imperial_custom.PNG)
+# Imperial Different X,Y,Z Axis 3x3x4
+![Imperial Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/117473f9584d88e811d80c64a007ab3d35684cfd/NetScad.Axis/Images/oscadAxis_imperial_custom.PNG)
 
-# Metric Different X,Y,Z Axis 12x12x12
-![Metric Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/65494dc4a4c5c5d7465677635949959922d0c2a0/NetScad.Axis/Images/oscadAxis_metric_custom.PNG)
+# Metric Different X,Y,Z Axis 80x80x120
+![Metric Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/117473f9584d88e811d80c64a007ab3d35684cfd/NetScad.Axis/Images/oscadAxis_metric_custom.PNG)
 
