@@ -7,7 +7,7 @@ namespace NetScad.Core.Core.Measurements
         // Convert inches to mm
         public static double InchToMm(double inch)
         {
-            return Inch.Inch.ToMillimeters((int)inch);
+            return Inch.Inch.ToMm((int)inch);
         }
 
         // Convert mm to inches

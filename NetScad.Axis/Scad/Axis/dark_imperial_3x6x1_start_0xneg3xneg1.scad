@@ -1,4 +1,4 @@
-// Dark_Imperial_12x12x12_Origin Imperial NetScad.Core Axis Module
+// Dark_Imperial_3x6x1_Start_0xNeg3xNeg1 Imperial NetScad.Core Axis Module
 // Creates a 3D axis with labeled measurements along the X, Y, and Z axes.
 // Parameters:
 // - MeasureType: 'Metric' for millimeters or 'Imperial' for inches (default: Metric)
@@ -7,42 +7,42 @@
 // - MinY, MaxY: Minimum and maximum values for the Y axis (default: 0 to 300mm)
 // - MinZ, MaxZ: Minimum and maximum values for the Z axis (default: 0 to 300mm)
 
-module dark_imperial_12x12x12_origin(colorVal, alpha) {
+module dark_imperial_3x6x1_start_0xneg3xneg1(colorVal, alpha) {
     color(colorVal, alpha) {
-         for (x = [0:6.35:304.8]){   if(x != 0)
+         for (x = [0:6.35:76.2]){   if(x != 0)
  translate([x - .1, -8.75, .1]) cube([0.2, 8.75, 0.02]);   }
-         for (y = [0:6.35:304.8]){   if(y != 0)
+         for (y = [-76.2:6.35:76.2]){   if(y != 0)
  translate([-8.75, y - .1, .1]) cube([8.75, 0.2, 0.02]);   }
-         for (z = [0:6.35:304.8]){   if(z != 0)
+         for (z = [-19.05:6.35:0]){   if(z != 0)
  translate([-7.5, -7.5, z + .1]) rotate([90, 45, 135]) cube([0.2, 0.02, 7.5]);   }
-         for (x = [0:3.175:304.8]){   if(x != 0)
+         for (x = [0:3.175:76.2]){   if(x != 0)
  translate([x - .1, -5, .1]) cube([0.2, 5, 0.02]);   }
-         for (y = [0:3.175:304.8]){   if(y != 0)
+         for (y = [-76.2:3.175:76.2]){   if(y != 0)
  translate([-5, y - .1, .1]) cube([5, 0.2, 0.02]);   }
-         for (z = [0:3.175:304.8]){   if(z != 0)
+         for (z = [-19.05:3.175:0]){   if(z != 0)
  translate([-3.75, -3.75, z + .1]) rotate([90, 45, 135]) cube([0.2, 0.02, 5]);   }
-         for (x = [0:1.5875:304.8]){   if(x != 0)
+         for (x = [0:1.5875:76.2]){   if(x != 0)
  translate([x - .1, -2.5, .1]) cube([0.2, 2.5, 0.02]);   }
-         for (y = [0:1.5875:304.8]){   if(y != 0)
+         for (y = [-76.2:1.5875:76.2]){   if(y != 0)
  translate([-2.5, y - .1, .1]) cube([2.5, 0.2, 0.02]);   }
-         for (z = [0:1.5875:304.8]){   if(z != 0)
+         for (z = [-19.05:1.5875:0]){   if(z != 0)
  translate([-1.75, -1.75, z + .1]) rotate([90, 45, 135]) cube([0.2, 0.02, 2.5]);   }
-         for (x = [0:0.79375:304.8]){   if(x != 0)
+         for (x = [0:0.79375:76.2]){   if(x != 0)
  translate([x - .1, -1.25, .1]) cube([0.2, 1.25, 0.02]);   }
-         for (y = [0:0.79375:304.8]){   if(y != 0)
+         for (y = [-76.2:0.79375:76.2]){   if(y != 0)
  translate([-1.25, y - .1, .1]) cube([1.25, 0.2, 0.02]);   }
-         for (z = [0:0.79375:304.8]){   if(z != 0)
+         for (z = [-19.05:0.79375:0]){   if(z != 0)
  translate([-.875, -.875, z + .1]) rotate([90, 45, 135]) cube([0.2, 0.02, 1.25]);   }
          // Axis Labels
          unit = "in";
          scale = 25.4;
 
-         for (i = [0:6.35:304.8]){   if(i != 0)
+         for (i = [0:6.35:76.2]){   if((i >= scale * .75 - .875 || i <= -scale * .75 + .875) && i != 0)
  translate([i - 0.875, -10, .1]) linear_extrude(0.02) rotate(270) text(str(i/scale, unit), size=2);   }
-         for (i = [0:6.35:304.8]){   if(i != 0)
+         for (i = [-76.2:6.35:76.2]){   if((i >= scale * .75 - .875 || i <= -scale * .75 + .875) && i != 0)
  translate([-10, i + 0.875, .1]) linear_extrude(0.02) rotate(180) text(str(i/scale, unit), size=2);   }
-         for (i = [0:6.35:304.8]){   if(i != 0)
+         for (i = [-19.05:6.35:0]){   if((i >= scale * .75 - .875 || i <= -scale * .75 + .875) && i != 0)
  translate([-8.75, -8.75, i - .875]) rotate([0,45,135]) linear_extrude(0.02) rotate(90) text(str(i/scale, unit), size=1.75);   }
   }
 }
-// End of Dark_Imperial_12x12x12_Origin Module
+// End of Dark_Imperial_3x6x1_Start_0xNeg3xNeg1 Module

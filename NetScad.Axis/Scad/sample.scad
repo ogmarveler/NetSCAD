@@ -6,12 +6,13 @@ use <Axis/axes.scad>;
 // Metric 1mm increments
 //Get_Dark_Metric_300x300x300_Origin();
 //Get_Light_Metric_300x300x300_Origin();
-Get_Dark_Metric_80x80x120_Start_0x0xNeg60();
+//Get_Dark_Metric_160x160x100_Start_Neg80xNeg80xNeg20();
 
 // 1/32 inch increments
 //Get_Dark_Imperial_12x12x12_Origin();
 //Get_Light_Imperial_12x12x12_Origin();
-//Get_Dark_Imperial_3x3x4_Start_0x0xNeg2();
+Get_Dark_Imperial_3x6x1_Start_0xNeg3xNeg1();
+//Get_Dark_Imperial_6x6x4_Start_Neg3xNeg3xNeg1();
 
 // Basic shapes for scale reference - 1 inch (25.4mm) cube
   for (y = [25.4:25.4:50.8])

@@ -34,12 +34,12 @@ namespace NetScad.Core.Measurements
             return numerator / (double)GetDenominator(fraction);
         }
 
-        public static double ToMillimeters(this FractionalInch fraction, int numerator)
+        public static double ToMm(this FractionalInch fraction, int numerator)
         {
             return fraction.ToInches(numerator) * 25.4;
         }
 
-        public static (int Numerator, int Denominator) FromMillimeters(this FractionalInch fraction, double mm)
+        public static (int Numerator, int Denominator) FromMm(this FractionalInch fraction, double mm)
         {
             int denominator = GetDenominator(fraction);
             double inches = mm * 0.0393700787; // mm to inches
@@ -52,12 +52,12 @@ namespace NetScad.Core.Measurements
             return numerator; // 1 inch = numerator/1
         }
 
-        public static double ToMillimeters(this Inch inch, int numerator)
+        public static double ToMm(this Inch inch, int numerator)
         {
             return numerator * 25.4; // inches to mm
         }
 
-        public static (int Numerator, int Denominator) FromMillimeters(this Inch inch, double mm)
+        public static (int Numerator, int Denominator) FromMm(this Inch inch, double mm)
         {
             double inches = mm * 0.0393700787; // mm to inches
             int numerator = (int)Math.Round(inches);

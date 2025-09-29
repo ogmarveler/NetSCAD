@@ -1,10 +1,13 @@
-﻿using NetScad.Core.Measurements;
-using System;
-using static NetScad.Core.SCAD.Utility.BlockStatement;
-using static NetScad.Core.SCAD.Utility.AxisConfig;
-using static NetScad.Core.SCAD.Models.Primitive;
+﻿using NetScad.Core.Core.Measurements;
+using NetScad.Core.Measurements;
 using NetScad.Core.SCAD.Models;
-using NetScad.Core.Core.Measurements;
+using NetScad.Core.Utility;
+using System;
+using System.Text;
+using static NetScad.Core.SCAD.Models.Primitive;
+using static NetScad.Core.SCAD.Utility.AxisConfig;
+using static NetScad.Core.SCAD.Utility.BlockStatement;
+using static NetScad.Core.SCAD.Models.Selector;
 
 namespace NetScad.Core.SCAD.Modules
 {
@@ -116,7 +119,7 @@ namespace NetScad.Core.SCAD.Modules
                 // For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
                 // For Imperial, Axis will be set to 1/4, 1/8, 1/16, and 1/32 inch increments.
                 // For larger measurements, adjust Min, Max, and Scale accordingly to keep axis readable.
-                var precision = axisSettings.MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch4.ToMillimeters(1) : 1;
+                var precision = axisSettings.MeasureType == MeasureType.Imperial ? FractionalInch.Inch4.ToMm(1) : 1;
 
                 axisSettings.MinX = AdjustCoordinate(coordinate: axisSettings.MinX, increment: axisSettings.IncrementX, precision: precision);
                 axisSettings.MaxX = AdjustCoordinate(coordinate: axisSettings.MaxX, increment: axisSettings.IncrementX, precision: precision);
@@ -129,7 +132,9 @@ namespace NetScad.Core.SCAD.Modules
             }
             else
             {
-                axisSettings = new AxisSettings();
+                axisSettings = new AxisSettings(
+                    outputDirectory: PathHelper.GetProjectRoot()
+                    );
             }
 
             return axisSettings;
@@ -144,19 +149,19 @@ namespace NetScad.Core.SCAD.Modules
             var zAxis = Math.Abs(axisSettings.MaxZ - axisSettings.MinZ);
 
             // Labels based on measurement type and total cubic size
-            var xLabel = axisSettings.MeasureType == Selector.MeasureType.Imperial ? $"{Math.Round(xAxis / Inch.Inch.ToMillimeters(1), 0)}" : $"{xAxis}";
-            var yLabel = axisSettings.MeasureType == Selector.MeasureType.Imperial ? $"{Math.Round(yAxis / Inch.Inch.ToMillimeters(1), 0)}" : $"{yAxis}";
-            var zLabel = axisSettings.MeasureType == Selector.MeasureType.Imperial ? $"{Math.Round(zAxis / Inch.Inch.ToMillimeters(1), 0)}" : $"{zAxis}";
+            var xLabel = axisSettings.MeasureType == MeasureType.Imperial ? $"{Math.Round(xAxis / Inch.Inch.ToMm(1), 0)}" : $"{xAxis}";
+            var yLabel = axisSettings.MeasureType == MeasureType.Imperial ? $"{Math.Round(yAxis / Inch.Inch.ToMm(1), 0)}" : $"{yAxis}";
+            var zLabel = axisSettings.MeasureType == MeasureType.Imperial ? $"{Math.Round(zAxis / Inch.Inch.ToMm(1), 0)}" : $"{zAxis}";
 
             // Labels based on measurement type and axis start point
-            var xStart = axisSettings.MeasureType == Selector.MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinX),0) : axisSettings.MinX;
-            var yStart = axisSettings.MeasureType == Selector.MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinY), 0) : axisSettings.MinY;
-            var zStart = axisSettings.MeasureType == Selector.MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinZ), 0) : axisSettings.MinZ;
+            var xStart = axisSettings.MeasureType == MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinX), 0) : axisSettings.MinX;
+            var yStart = axisSettings.MeasureType == MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinY), 0) : axisSettings.MinY;
+            var zStart = axisSettings.MeasureType == MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinZ), 0) : axisSettings.MinZ;
             var startLabel = $"_Start_{xStart}x{yStart}x{zStart}".Replace("-", "Neg");
             // Create the Axis Module
             var axisModule = new CustomAxis();
-            var unit = axisSettings.MeasureType == Selector.MeasureType.Imperial ? "in" : "mm";
-            var scale = axisSettings.MeasureType == Selector.MeasureType.Imperial ? Inch.Inch.ToMillimeters(1) : 1;
+            var unit = axisSettings.MeasureType == MeasureType.Imperial ? "in" : "mm";
+            var scale = axisSettings.MeasureType == MeasureType.Imperial ? Inch.Inch.ToMm(1) : 1;
             var axisColor = axisSettings.OpenScadColor.ToString().ToLower();
             axisModule.ModuleName = $"{axisSettings.BackgroundType}_{axisSettings.MeasureType}_{xLabel}x{yLabel}x{zLabel}";
             if (xStart == 0 && yStart == 0 && zStart == 0)
@@ -167,33 +172,35 @@ namespace NetScad.Core.SCAD.Modules
             {
                 axisModule.ModuleName += startLabel;
             }
-            axisModule.CallingMethod = $"{axisModule.ModuleName}(colorVal, alpha);";
+            axisModule.CallingMethod = $"{axisModule.ModuleName}();";
 
-            // Create the Axis Module - user defined settings
-            axisModule.AxisModule = $"// {axisModule.ModuleName} {axisSettings.MeasureType} {AxisModuleFormats.ModuleComments}\n" +
-                $"module {axisModule.ModuleName.ToLower()}(colorVal, alpha) {{\n" +
-                $"    color(colorVal, alpha) {{\n" +  // Wrap all in color
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX, axisSettings.MaxX])}\n{{   {AxisModuleFormats.XOffsetMarker}   }}\n" +  // X Axis Marker
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY, axisSettings.MaxY])}\n{{   {AxisModuleFormats.YOffsetMarker}   }}\n" +  // Y Axis Marker
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ, axisSettings.MaxZ])}\n{{   {AxisModuleFormats.ZOffsetMarker}   }}\n" +  // Z Axis Marker
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX2, axisSettings.MaxX])}\n{{   {AxisModuleFormats.XOffsetMarker2}   }}\n" +  // X Axis Marker 2
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY2, axisSettings.MaxY])}\n{{   {AxisModuleFormats.YOffsetMarker2}   }}\n" +  // Y Axis Marker 2
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ2, axisSettings.MaxZ])}\n{{   {AxisModuleFormats.ZOffsetMarker2}   }}\n" +  // Z Axis Marker 2
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX3, axisSettings.MaxX])}\n{{   {AxisModuleFormats.XOffsetMarker3}   }}\n" +  // X Axis Marker 3
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY3, axisSettings.MaxY])}\n{{   {AxisModuleFormats.YOffsetMarker3}   }}\n" +  // Y Axis Marker 3
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ3, axisSettings.MaxZ])}\n{{   {AxisModuleFormats.ZOffsetMarker3}   }}\n" +  // Z Axis Marker 3
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX4, axisSettings.MaxX])}\n{{   {AxisModuleFormats.XOffsetMarker4}   }}\n" +  // X Axis Marker 4
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY4, axisSettings.MaxY])}\n{{   {AxisModuleFormats.YOffsetMarker4}   }}\n" +  // Y Axis Marker 4
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ4, axisSettings.MaxZ])}\n{{   {AxisModuleFormats.ZOffsetMarker4}   }}\n" +  // Z Axis Marker 4
-                $"             // Axis Labels\n" + // Create the Axis Markers - main marker used for measurements, half and quarter markers for visual reference
-                $"             unit = \"{unit}\";\n" + // Set unit for labels
-                $"             scale = {scale};\n" + // Set scale for labels
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinX, axisSettings.IncrementX, axisSettings.MaxX])}\n{{   {AxisModuleFormats.XOffsetLabel}   }}\n" +  // X Axis Label
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinY, axisSettings.IncrementY, axisSettings.MaxY])}\n{{   {AxisModuleFormats.YOffsetLabel}   }}\n" +  // Y Axis Label
-                $"             {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinZ, axisSettings.IncrementZ, axisSettings.MaxZ])}\n{{   {AxisModuleFormats.ZOffsetLabel}   }}\n" +  // Z Axis Label
-                $"  }}\n" +
-                $"}}\n" +
-                $"// End of {axisModule.ModuleName} Module\n";
+            var sb = new StringBuilder();
+            sb.AppendLine($"// {axisModule.ModuleName} {axisSettings.MeasureType} {AxisModuleFormats.ModuleComments}");
+            sb.AppendLine($"module {axisModule.ModuleName.ToLower()}(colorVal, alpha) {{");
+            sb.AppendLine($"    color(colorVal, alpha) {{"); // Wrap all in color
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker}   }}");  // X Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetMarker}   }}");  // Y Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker}   }}");  // Z Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX2, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker2}   }}");  // X Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY2, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetMarker2}   }}");  // Y Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ2, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker2}   }}");  // Z Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX3, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker3}   }}");  // X Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY3, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetMarker3}   }}");  // Y Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ3, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker3}   }}");  // Z Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX4, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker4}   }}");  // X Axis Marker 4
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY4, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetMarker4}   }}");  // Y Axis Marker 4
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ4, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker4}   }}");  // Z Axis Marker 4
+            sb.AppendLine($"         // Axis Labels"); // Create the Axis Markers - main marker used for measurements, half and quarter markers for visual reference
+            sb.AppendLine($"         unit = \"{unit}\";"); // Set unit for labels
+            sb.AppendLine($"         scale = {scale};\n"); // Set scale for labels
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinX, axisSettings.IncrementX, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetLabel}   }}");  // X Axis Label
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinY, axisSettings.IncrementY, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetLabel}   }}");  // Y Axis Label
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinZ, axisSettings.IncrementZ, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetLabel}   }}");  // Z Axis Label
+            sb.AppendLine($"  }}");
+            sb.AppendLine($"}}");
+            sb.AppendLine($"// End of {axisModule.ModuleName} Module");
+
+            axisModule.AxisModule = sb.ToString();
 
             // Include the settings used to create the axis for reference
             axisModule.Settings = axisSettings;

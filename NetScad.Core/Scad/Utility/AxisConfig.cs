@@ -1,7 +1,9 @@
 ﻿using NetScad.Core.Measurements;
-using NetScad.Core.SCAD.Models;
+using NetScad.Core.Utility;
 using System;
 using System.IO;
+using static NetScad.Core.Measurements.FractionalInch;
+using static NetScad.Core.SCAD.Models.Selector;
 
 namespace NetScad.Core.SCAD.Utility
 {
@@ -59,21 +61,21 @@ namespace NetScad.Core.SCAD.Utility
 
         public static class AxisModuleFormats
         {
-            public const string XOffsetMarker = "if(x != 0)\n translate([x - .2, -8.75, -.01]) cube([0.2, 8.75, 0.02]);";
-            public const string YOffsetMarker = "if(y != 0)\n translate([-8.75, y - .2, -.01]) cube([8.75, 0.2, 0.02]);";
-            public const string ZOffsetMarker = "if(z != 0)\n translate([-7.5, -7.5, z-.01]) rotate([90, 45, 135]) cube([0.2, 0.02, 7.5]);";
-            public const string XOffsetLabel = "if(i != 0)\n translate([i - 0.875, -10, -.01]) linear_extrude(0.02) rotate(270) text(str(i/scale, unit), size=2);";
-            public const string YOffsetLabel = "if(i != 0)\n translate([-10, i + 0.875, -.01]) linear_extrude(0.02) rotate(180) text(str(i/scale, unit), size=2);";
-            public const string ZOffsetLabel = "if(i != 0)\n translate([-8.75, -8.75, i - .875]) rotate([0,45,135]) linear_extrude(0.02) rotate(90) text(str(i/scale, unit), size=1.75);";
-            public const string XOffsetMarker2 = "if(x != 0)\n translate([x - .2, -5, -.01]) cube([0.2, 5, 0.02]);";
-            public const string YOffsetMarker2 = "if(y != 0)\n translate([-5, y - .2, -.01]) cube([5, 0.2, 0.02]);";
-            public const string ZOffsetMarker2 = "if(z != 0)\n translate([-3.75, -3.75, z-.01]) rotate([90, 45, 135]) cube([0.2, 0.02, 5]);";
-            public const string XOffsetMarker3 = "if(x != 0)\n translate([x - .2, -2.5, -.01]) cube([0.2, 2.5, 0.02]);";
-            public const string YOffsetMarker3 = "if(y != 0)\n translate([-2.5, y - .2, -.01]) cube([2.5, 0.2, 0.02]);";
-            public const string ZOffsetMarker3 = "if(z != 0)\n translate([-1.75, -1.75, z-.01]) rotate([90, 45, 135]) cube([0.2, 0.02, 2.5]);";
-            public const string XOffsetMarker4 = "if(x != 0)\n translate([x - .2, -1.25, -.01]) cube([0.2, 1.25, 0.02]);";
-            public const string YOffsetMarker4 = "if(y != 0)\n translate([-1.25, y - .2, -.01]) cube([1.25, 0.2, 0.02]);";
-            public const string ZOffsetMarker4 = "if(z != 0)\n translate([-.875, -.875, z-.01]) rotate([90, 45, 135]) cube([0.2, 0.02, 1.25]);";
+            public const string XOffsetMarker = "if(x != 0)\n translate([x - .1, -8.75, .1]) cube([0.2, 8.75, 0.02]);";
+            public const string YOffsetMarker = "if(y != 0)\n translate([-8.75, y - .1, .1]) cube([8.75, 0.2, 0.02]);";
+            public const string ZOffsetMarker = "if(z != 0)\n translate([-7.5, -7.5, z + .1]) rotate([90, 45, 135]) cube([0.2, 0.02, 7.5]);";
+            public const string XOffsetLabel = "if((i >= scale * .75 - .875 || i <= -scale * .75 + .875) && i != 0)\n translate([i - 0.875, -10, .1]) linear_extrude(0.02) rotate(270) text(str(i/scale, unit), size=2);";
+            public const string YOffsetLabel = "if((i >= scale * .75 - .875 || i <= -scale * .75 + .875) && i != 0)\n translate([-10, i + 0.875, .1]) linear_extrude(0.02) rotate(180) text(str(i/scale, unit), size=2);";
+            public const string ZOffsetLabel = "if((i >= scale * .75 - .875 || i <= -scale * .75 + .875) && i != 0)\n translate([-8.75, -8.75, i - .875]) rotate([0,45,135]) linear_extrude(0.02) rotate(90) text(str(i/scale, unit), size=1.75);";
+            public const string XOffsetMarker2 = "if(x != 0)\n translate([x - .1, -5, .1]) cube([0.2, 5, 0.02]);";
+            public const string YOffsetMarker2 = "if(y != 0)\n translate([-5, y - .1, .1]) cube([5, 0.2, 0.02]);";
+            public const string ZOffsetMarker2 = "if(z != 0)\n translate([-3.75, -3.75, z + .1]) rotate([90, 45, 135]) cube([0.2, 0.02, 5]);";
+            public const string XOffsetMarker3 = "if(x != 0)\n translate([x - .1, -2.5, .1]) cube([0.2, 2.5, 0.02]);";
+            public const string YOffsetMarker3 = "if(y != 0)\n translate([-2.5, y - .1, .1]) cube([2.5, 0.2, 0.02]);";
+            public const string ZOffsetMarker3 = "if(z != 0)\n translate([-1.75, -1.75, z + .1]) rotate([90, 45, 135]) cube([0.2, 0.02, 2.5]);";
+            public const string XOffsetMarker4 = "if(x != 0)\n translate([x - .1, -1.25, .1]) cube([0.2, 1.25, 0.02]);";
+            public const string YOffsetMarker4 = "if(y != 0)\n translate([-1.25, y - .1, .1]) cube([1.25, 0.2, 0.02]);";
+            public const string ZOffsetMarker4 = "if(z != 0)\n translate([-.875, -.875, z + .1]) rotate([90, 45, 135]) cube([0.2, 0.02, 1.25]);";
             public const string ModuleComments = "NetScad.Core Axis Module\n" +
                 "// Creates a 3D axis with labeled measurements along the X, Y, and Z axes.\n" +
                 "// Parameters:\n" +
@@ -84,40 +86,40 @@ namespace NetScad.Core.SCAD.Utility
                 "// - MinZ, MaxZ: Minimum and maximum values for the Z axis (default: 0 to 300mm)\n";
         }
 
-        public class AxisSettings(Selector.BackgroundType backgroundType = Selector.BackgroundType.Light, Selector.MeasureType measureType = Selector.MeasureType.Metric, double minX = 0, double minY = 0, double minZ = 0, double maxX = 300, double maxY = 300, double maxZ = 300, double axisColorAlpha = 1, Selector.OpenScadColor? axisColor = null, string? outputFolder = null)
+        public class AxisSettings(string outputDirectory, BackgroundType backgroundType = BackgroundType.Light, MeasureType measureType = MeasureType.Metric, double minX = 0, double minY = 0, double minZ = 0, double maxX = 300, double maxY = 300, double maxZ = 300)
         {
-            public Selector.BackgroundType BackgroundType { get; set; } = backgroundType;
-            public Selector.MeasureType MeasureType { get; set; } = measureType;
+            public BackgroundType BackgroundType { get; set; } = backgroundType;
+            public MeasureType MeasureType { get; set; } = measureType;
             public double MinX { get; set; } = minX;
             public double MaxX { get; set; } = maxX; // Default to 300mm (12 inches)
             public double MinY { get; set; } = minY;
             public double MaxY { get; set; } = maxY; // Default to 300mm (12 inches)
             public double MinZ { get; set; } = minZ;
             public double MaxZ { get; set; } = maxZ; // Default to 300mm (12 inches)
-            public Selector.OpenScadColor OpenScadColor { get; set; } = (Selector.OpenScadColor)(axisColor is not null ? axisColor :
-                backgroundType == Selector.BackgroundType.Light ? Selector.OpenScadColor.Black : Selector.OpenScadColor.White); // Default color if light or dark background
-            public double AxisColorAlpha { get; set; } = axisColorAlpha;
-            public string OutputFolder { get; set; } = outputFolder ?? Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+
             // Non-editable properties
-            public double IncrementX => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch4.ToMillimeters(1) : 20;
-            public double IncrementY => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch4.ToMillimeters(1) : 20;
-            public double IncrementZ => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch4.ToMillimeters(1) : 20;
-            public double IncrementX2 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch8.ToMillimeters(1) : 10;
-            public double IncrementY2 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch8.ToMillimeters(1) : 10;
-            public double IncrementZ2 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch8.ToMillimeters(1) : 10;
-            public double IncrementX3 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch16.ToMillimeters(1) : 5;
-            public double IncrementY3 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch16.ToMillimeters(1) : 5;
-            public double IncrementZ3 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch16.ToMillimeters(1) : 5;
-            public double IncrementX4 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch32.ToMillimeters(1) : 1;
-            public double IncrementY4 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch32.ToMillimeters(1) : 1;
-            public double IncrementZ4 => MeasureType == Selector.MeasureType.Imperial ? FractionalInch.Inch32.ToMillimeters(1) : 1;
-            public string Unit => MeasureType == Selector.MeasureType.Metric ? "mm" : "in";
+            public string OutputDirectory { get; set; } = Path.Combine(outputDirectory,"Scad", "Axis");
+            public OpenScadColor OpenScadColor => BackgroundType == BackgroundType.Light ? OpenScadColor.Black : OpenScadColor.White; // Default color if light or dark background
+            public double AxisColorAlpha => 1;
+            public double IncrementX => MeasureType == MeasureType.Imperial ? Inch4.ToMm(1) : 20;
+            public double IncrementY => MeasureType == MeasureType.Imperial ? Inch4.ToMm(1) : 20;
+            public double IncrementZ => MeasureType == MeasureType.Imperial ? Inch4.ToMm(1) : 20;
+            public double IncrementX2 => MeasureType == MeasureType.Imperial ? Inch8.ToMm(1) : 10;
+            public double IncrementY2 => MeasureType == MeasureType.Imperial ? Inch8.ToMm(1) : 10;
+            public double IncrementZ2 => MeasureType == MeasureType.Imperial ? Inch8.ToMm(1) : 10;
+            public double IncrementX3 => MeasureType == MeasureType.Imperial ? Inch16.ToMm(1) : 5;
+            public double IncrementY3 => MeasureType == MeasureType.Imperial ? Inch16.ToMm(1) : 5;
+            public double IncrementZ3 => MeasureType == MeasureType.Imperial ? Inch16.ToMm(1) : 5;
+            public double IncrementX4 => MeasureType == MeasureType.Imperial ? Inch32.ToMm(1) : 1;
+            public double IncrementY4 => MeasureType == MeasureType.Imperial ? Inch32.ToMm(1) : 1;
+            public double IncrementZ4 => MeasureType == MeasureType.Imperial ? Inch32.ToMm(1) : 1;
+            public string Unit => MeasureType == MeasureType.Metric ? "mm" : "in";
         }
 
         public class CustomAxis
         {
             public string AxisModule { get; set; } = string.Empty;
-            public AxisSettings Settings { get; set; } = new AxisSettings();
+            public AxisSettings Settings { get; set; } = new AxisSettings(outputDirectory: PathHelper.GetProjectRoot());
             public string CallingMethod { get; set; } = string.Empty;
             public string ModuleName { get; set; } = string.Empty;
         }
