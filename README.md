@@ -142,15 +142,15 @@ module Get_Light_Metric_300x300x300_Origin(colorVal = "Black", alpha = 1) {
 }
 ```
 
-# Imperial Axis 12x12x12
+### Imperial Axis 12in x 12in x 12in
 ![Imperial Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/117473f9584d88e811d80c64a007ab3d35684cfd/NetScad.Axis/Images/oscadAxis_imperial.PNG)
 
-# Metric Axis 300x300x300
+### Metric Axis 300mm x 300mm x 300mm
 ![Metric Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/117473f9584d88e811d80c64a007ab3d35684cfd/NetScad.Axis/Images/oscadAxis_metric.PNG)
 
-# Imperial Different X,Y,Z Axis 3x3x4
+### Imperial Different X,Y,Z Axis 3in x 3in x 4in
 ![Imperial Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/117473f9584d88e811d80c64a007ab3d35684cfd/NetScad.Axis/Images/oscadAxis_imperial_custom.PNG)
 
-# Metric Different X,Y,Z Axis 80x80x120
+### Metric Different X,Y,Z Axis 80mm x 80mm x 120mm
 ![Metric Different X,Y,Z Axis 12x12x12](https://github.com/ogmarveler/NetSCAD/blob/117473f9584d88e811d80c64a007ab3d35684cfd/NetScad.Axis/Images/oscadAxis_metric_custom.PNG)
 
