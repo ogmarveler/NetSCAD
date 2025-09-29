@@ -1,4 +1,4 @@
-# NetSCAD - 3D Modeling Tools for OpenSCAD built with .NET
+# NetSCAD - Tools for OpenSCAD built with .NET
 
 ## Description
 Contains a collection of tools and libraries to facilitate 3D modeling in OpenSCAD using .NET languages. This project aims to simplify the process of creating complex 3D models by providing reusable components and utilities. Currently, it includes libraries for automating the creation of custom Imperial and Metric axes. This allows for more precise 3D modeling used in 3D printing.
@@ -27,10 +27,10 @@ You need to have the following installed:
 2. [.NET 8.0 SDK or later.](https://dotnet.microsoft.com/en-us/download)
 
 ## Installation
-1. Clone the repo and add the **NetSCAD.Axis** and **NetSCAD.Core** libraries as project references to your main .NET project.
+1. Clone the repo and add the **NetSCAD.Axis** and **NetSCAD.Core** libraries as references to your main .NET project.
 2. Unless you're using the ``NetSCAD.Axis`` project included, create a ``Scad/Axis`` folder in your main project. Axes will be stored in this folder, and the ``axes.scad`` file will be the file to call the modules from. References to each one, along with the dimensions for each axis are saved in this file for easy reference.
 3. If you're using Visual Studio 2022, you might need to create a blank ``axes.scad`` file outside of VS2022, and then put it in the ``Scad/Axis`` folder. The ``NetSCAD.Axis`` project already has the folder and file, so if using the ones included with the libraries, then this step can be ignored.
-4. A ``sample.scad`` will be generated in the ``Scad`` folder, which shows an example of calling the various axis modules.
+4. A ``sample.scad`` will be in the ``Scad`` folder, which shows an example of calling the various axis modules.
 
 ```bash
 gh repo clone ogmarveler/NetSCAD
@@ -53,16 +53,15 @@ using static NetScad.Core.SCAD.Models.Selector;
 // For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
 // For Imperial, Axis will be set to 1/4, 1/8, 1/16, and 1/32 inch increments.
 // For larger measurements, adjust Min, Max, and Scale accordingly to keep axis readable.
-// All parameters are optional, so only new AxisSettings() needs to be called to generate axes.
 // Cache if called multiple times
 var axisSettings = new AxisSettings(
      outputDirectory: PathHelper.GetProjectRoot(), // ..NetScad.Axis/Scad/Axis
-     backgroundType: BackgroundType.Dark, // Axis color will be white, or black if Light background type selected
+     backgroundType: BackgroundType.Dark, // Axis color will be white or black
      measureType: MeasureType.Imperial, // inches
      minX: 0, // for positive only axis, max must be positive
      maxX: Inch1.ToMm(3), // can set as inches
      minY: Inch1.ToMm(-3), // can set negative axis starting point
-     maxY: 70, // can be set as millimeters, will adjust to 76.2mm if imperial measure type selected
+     maxY: 70, // can be set as millimeters, will adjust to 76.2mm if imperial measure type
      minZ: -Inch4.ToMm(3), // Fractional axes can be used (3/4")
      maxZ: 0 // for negative only axis, min must be negative
 );
@@ -102,8 +101,8 @@ BackgroundType.Light;
 ```
 
 ## Measurements
-For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
-For Imperial, Axis will be set to 1/4, 1/8, 1/16, and 1/32 inch increments.
+#### Metric: axis measurements are 20mm, 10mm, 5mm, 1mm increments.
+#### Imperial: axis will are 1/4, 1/8, 1/16, 1/32 inch increments.
 
 An ``enum FractionalInch`` selector allows for supplying Min and Max coordinates on all 3 axes (X, Y, and Z) to be input in 1/32 - 1 inch units. This makes it easier to not have to do the conversions before hand. The functions will automatically adjust supplied inputs to the nearest increment so that the axes display identical to how a ruler would evenly space increments. For example, if 150mm is supplied as an input, but imperial measurement type is selected, the function will adjust it to 152.4mm so that all increments are exact to the desired axes output. The same concept occurs with metric inputs supplied as well.
 
