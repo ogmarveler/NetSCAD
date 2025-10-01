@@ -1,6 +1,5 @@
 ﻿using NetScad.Core.Core.Measurements;
 using NetScad.Core.Measurements;
-using NetScad.Core.SCAD.Models;
 using NetScad.Core.Utility;
 using System;
 using System.Text;

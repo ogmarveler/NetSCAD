@@ -1,12 +1,8 @@
-﻿using NetScad.Core.Measurements;
-using NetScad.Core.SCAD.Models;
-using System;
+﻿using System;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static NetScad.Core.SCAD.Utility.AxisConfig;
 
 namespace NetScad.Core.SCAD
 {
