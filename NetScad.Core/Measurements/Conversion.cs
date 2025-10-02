@@ -1,6 +1,6 @@
-﻿using NetScad.Core.Measurements;
+﻿
 
-namespace NetScad.Core.Core.Measurements
+namespace NetScad.Core.Measurements
 {
     public static class Conversion
     {
@@ -14,6 +14,11 @@ namespace NetScad.Core.Core.Measurements
         public static double MmToInches(double mm)
         {
             return mm * 0.0393700787;
+        }
+
+        public static double InchesToMm(double inches)
+        {
+            return inches / 0.0393700787;
         }
 
         // Convert a radius in mm to a ratio for rounding edges in OpenSCAD

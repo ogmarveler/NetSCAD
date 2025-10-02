@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NetScad.Core.Core
+namespace NetScad.Core
 {
     internal class AwgCable
     {

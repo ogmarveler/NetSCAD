@@ -1,25 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace NetScad.Core.SCAD.Models
+namespace NetScad.Axis.SCAD.Models
 {
-    public class Selector
+    public class Colors
     {
-        public enum MeasureType
-        {
-            [JsonInclude]
-            Metric,
-            [JsonInclude]
-            Imperial
-        }
-
-        public enum BackgroundType
-        {
-            [JsonInclude]
-            Light,
-            [JsonInclude]
-            Dark
-        }
-
         public enum OpenScadColor
         {
             [JsonInclude]

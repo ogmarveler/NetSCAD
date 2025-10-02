@@ -4,14 +4,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NetScad.Core.SCAD
+namespace NetScad.Core.Utility
 {
     public class Output
     {
         public static async Task AppendToSCAD(string content, string filePath, CancellationToken cancellationToken = default)
         {
             // Check for update or new insert
-            var _updated = Utility.UpdateFIle.UpdateFile(filePath, content);
+            var _updated = UpdateFIle.UpdateFile(filePath, content);
 
             if (_updated) return;
             await File.AppendAllTextAsync(path: filePath, contents: content, encoding: Encoding.UTF8, cancellationToken: cancellationToken);

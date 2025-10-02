@@ -1,7 +1,7 @@
 // Dark_Imperial_6x6x4_Start_Neg3xNeg3xNeg1 Imperial NetScad.Core Axis Module
 // Creates a 3D axis with labeled measurements along the X, Y, and Z axes.
 // Parameters:
-// - MeasureType: 'Metric' for millimeters or 'Imperial' for inches (default: Metric)
+// - UnitSystem: 'Metric' for millimeters or 'Imperial' for inches (default: Metric)
 // - IncrementX, IncrementY, IncrementZ: Spacing between labels on each axis (default: 1.5875mm)
 // - MinX, MaxX: Minimum and maximum values for the X axis (default: 0 to 300mm)
 // - MinY, MaxY: Minimum and maximum values for the Y axis (default: 0 to 300mm)

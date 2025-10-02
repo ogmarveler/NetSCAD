@@ -1,7 +1,6 @@
-﻿using NetScad.Core.SCAD.Utility;
-using System.Collections.Generic;
+﻿using NetScad.Axis.SCAD.Utility;
 
-namespace NetScad.Core.SCAD.Objects
+namespace NetScad.Axis.SCAD.Objects
 {
     public static class SCADObject
     {

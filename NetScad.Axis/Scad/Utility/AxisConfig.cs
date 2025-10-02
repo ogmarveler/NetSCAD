@@ -1,11 +1,10 @@
 ﻿using NetScad.Core.Measurements;
 using NetScad.Core.Utility;
-using System;
-using System.IO;
 using static NetScad.Core.Measurements.FractionalInch;
-using static NetScad.Core.SCAD.Models.Selector;
+using static NetScad.Core.Measurements.Selector;
+using static NetScad.Axis.SCAD.Models.Colors;
 
-namespace NetScad.Core.SCAD.Utility
+namespace NetScad.Axis.SCAD.Utility
 {
     public class AxisConfig
     {
@@ -79,17 +78,17 @@ namespace NetScad.Core.SCAD.Utility
             public const string ModuleComments = "NetScad.Core Axis Module\n" +
                 "// Creates a 3D axis with labeled measurements along the X, Y, and Z axes.\n" +
                 "// Parameters:\n" +
-                "// - MeasureType: 'Metric' for millimeters or 'Imperial' for inches (default: Metric)\n" +
+                "// - UnitSystem: 'Metric' for millimeters or 'Imperial' for inches (default: Metric)\n" +
                 "// - IncrementX, IncrementY, IncrementZ: Spacing between labels on each axis (default: 1.5875mm)\n" +
                 "// - MinX, MaxX: Minimum and maximum values for the X axis (default: 0 to 300mm)\n" +
                 "// - MinY, MaxY: Minimum and maximum values for the Y axis (default: 0 to 300mm)\n" +
                 "// - MinZ, MaxZ: Minimum and maximum values for the Z axis (default: 0 to 300mm)\n";
         }
 
-        public class AxisSettings(string outputDirectory, BackgroundType backgroundType = BackgroundType.Light, MeasureType measureType = MeasureType.Metric, double minX = 0, double minY = 0, double minZ = 0, double maxX = 300, double maxY = 300, double maxZ = 300)
+        public class AxisSettings(string outputDirectory, BackgroundType backgroundType = BackgroundType.Light, UnitSystem measureType = UnitSystem.Metric, double minX = 0, double minY = 0, double minZ = 0, double maxX = 300, double maxY = 300, double maxZ = 300)
         {
             public BackgroundType BackgroundType { get; set; } = backgroundType;
-            public MeasureType MeasureType { get; set; } = measureType;
+            public UnitSystem UnitSystem { get; set; } = measureType;
             public double MinX { get; set; } = minX;
             public double MaxX { get; set; } = maxX; // Default to 300mm (12 inches)
             public double MinY { get; set; } = minY;
@@ -98,22 +97,22 @@ namespace NetScad.Core.SCAD.Utility
             public double MaxZ { get; set; } = maxZ; // Default to 300mm (12 inches)
 
             // Non-editable properties
-            public string OutputDirectory { get; set; } = Path.Combine(outputDirectory,"Scad", "Axis");
+            public string OutputDirectory { get; set; } = Path.Combine(outputDirectory,"Scad", "Axes");
             public OpenScadColor OpenScadColor => BackgroundType == BackgroundType.Light ? OpenScadColor.Black : OpenScadColor.White; // Default color if light or dark background
             public double AxisColorAlpha => 1;
-            public double IncrementX => MeasureType == MeasureType.Imperial ? Inch4.ToMm(1) : 20;
-            public double IncrementY => MeasureType == MeasureType.Imperial ? Inch4.ToMm(1) : 20;
-            public double IncrementZ => MeasureType == MeasureType.Imperial ? Inch4.ToMm(1) : 20;
-            public double IncrementX2 => MeasureType == MeasureType.Imperial ? Inch8.ToMm(1) : 10;
-            public double IncrementY2 => MeasureType == MeasureType.Imperial ? Inch8.ToMm(1) : 10;
-            public double IncrementZ2 => MeasureType == MeasureType.Imperial ? Inch8.ToMm(1) : 10;
-            public double IncrementX3 => MeasureType == MeasureType.Imperial ? Inch16.ToMm(1) : 5;
-            public double IncrementY3 => MeasureType == MeasureType.Imperial ? Inch16.ToMm(1) : 5;
-            public double IncrementZ3 => MeasureType == MeasureType.Imperial ? Inch16.ToMm(1) : 5;
-            public double IncrementX4 => MeasureType == MeasureType.Imperial ? Inch32.ToMm(1) : 1;
-            public double IncrementY4 => MeasureType == MeasureType.Imperial ? Inch32.ToMm(1) : 1;
-            public double IncrementZ4 => MeasureType == MeasureType.Imperial ? Inch32.ToMm(1) : 1;
-            public string Unit => MeasureType == MeasureType.Metric ? "mm" : "in";
+            public double IncrementX => UnitSystem == UnitSystem.Imperial ? Inch4.ToMm(1) : 20;
+            public double IncrementY => UnitSystem == UnitSystem.Imperial ? Inch4.ToMm(1) : 20;
+            public double IncrementZ => UnitSystem == UnitSystem.Imperial ? Inch4.ToMm(1) : 20;
+            public double IncrementX2 => UnitSystem == UnitSystem.Imperial ? Inch8.ToMm(1) : 10;
+            public double IncrementY2 => UnitSystem == UnitSystem.Imperial ? Inch8.ToMm(1) : 10;
+            public double IncrementZ2 => UnitSystem == UnitSystem.Imperial ? Inch8.ToMm(1) : 10;
+            public double IncrementX3 => UnitSystem == UnitSystem.Imperial ? Inch16.ToMm(1) : 5;
+            public double IncrementY3 => UnitSystem == UnitSystem.Imperial ? Inch16.ToMm(1) : 5;
+            public double IncrementZ3 => UnitSystem == UnitSystem.Imperial ? Inch16.ToMm(1) : 5;
+            public double IncrementX4 => UnitSystem == UnitSystem.Imperial ? Inch32.ToMm(1) : 1;
+            public double IncrementY4 => UnitSystem == UnitSystem.Imperial ? Inch32.ToMm(1) : 1;
+            public double IncrementZ4 => UnitSystem == UnitSystem.Imperial ? Inch32.ToMm(1) : 1;
+            public string Unit => UnitSystem == UnitSystem.Metric ? "mm" : "in";
         }
 
         public class CustomAxis

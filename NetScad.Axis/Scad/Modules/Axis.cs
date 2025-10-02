@@ -1,14 +1,12 @@
-﻿using NetScad.Core.Core.Measurements;
-using NetScad.Core.Measurements;
+﻿using NetScad.Core.Measurements;
 using NetScad.Core.Utility;
-using System;
 using System.Text;
-using static NetScad.Core.SCAD.Models.Primitive;
-using static NetScad.Core.SCAD.Utility.AxisConfig;
-using static NetScad.Core.SCAD.Utility.BlockStatement;
-using static NetScad.Core.SCAD.Models.Selector;
+using static NetScad.Axis.SCAD.Models.Primitive;
+using static NetScad.Axis.SCAD.Utility.AxisConfig;
+using static NetScad.Axis.SCAD.Utility.BlockStatement;
+using static NetScad.Core.Measurements.Selector;
 
-namespace NetScad.Core.SCAD.Modules
+namespace NetScad.Axis.SCAD.Modules
 {
     public class Axis
     {
@@ -118,7 +116,7 @@ namespace NetScad.Core.SCAD.Modules
                 // For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
                 // For Imperial, Axis will be set to 1/4, 1/8, 1/16, and 1/32 inch increments.
                 // For larger measurements, adjust Min, Max, and Scale accordingly to keep axis readable.
-                var precision = axisSettings.MeasureType == MeasureType.Imperial ? FractionalInch.Inch4.ToMm(1) : 1;
+                var precision = axisSettings.UnitSystem == UnitSystem.Imperial ? FractionalInch.Inch4.ToMm(1) : 1;
 
                 axisSettings.MinX = AdjustCoordinate(coordinate: axisSettings.MinX, increment: axisSettings.IncrementX, precision: precision);
                 axisSettings.MaxX = AdjustCoordinate(coordinate: axisSettings.MaxX, increment: axisSettings.IncrementX, precision: precision);
@@ -148,21 +146,21 @@ namespace NetScad.Core.SCAD.Modules
             var zAxis = Math.Abs(axisSettings.MaxZ - axisSettings.MinZ);
 
             // Labels based on measurement type and total cubic size
-            var xLabel = axisSettings.MeasureType == MeasureType.Imperial ? $"{Math.Round(xAxis / Inch.Inch.ToMm(1), 0)}" : $"{xAxis}";
-            var yLabel = axisSettings.MeasureType == MeasureType.Imperial ? $"{Math.Round(yAxis / Inch.Inch.ToMm(1), 0)}" : $"{yAxis}";
-            var zLabel = axisSettings.MeasureType == MeasureType.Imperial ? $"{Math.Round(zAxis / Inch.Inch.ToMm(1), 0)}" : $"{zAxis}";
+            var xLabel = axisSettings.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(xAxis / Inch.Inch.ToMm(1), 0)}" : $"{xAxis}";
+            var yLabel = axisSettings.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(yAxis / Inch.Inch.ToMm(1), 0)}" : $"{yAxis}";
+            var zLabel = axisSettings.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(zAxis / Inch.Inch.ToMm(1), 0)}" : $"{zAxis}";
 
             // Labels based on measurement type and axis start point
-            var xStart = axisSettings.MeasureType == MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinX), 0) : axisSettings.MinX;
-            var yStart = axisSettings.MeasureType == MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinY), 0) : axisSettings.MinY;
-            var zStart = axisSettings.MeasureType == MeasureType.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinZ), 0) : axisSettings.MinZ;
+            var xStart = axisSettings.UnitSystem == UnitSystem.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinX), 0) : axisSettings.MinX;
+            var yStart = axisSettings.UnitSystem == UnitSystem.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinY), 0) : axisSettings.MinY;
+            var zStart = axisSettings.UnitSystem == UnitSystem.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinZ), 0) : axisSettings.MinZ;
             var startLabel = $"_Start_{xStart}x{yStart}x{zStart}".Replace("-", "Neg");
             // Create the Axis Module
             var axisModule = new CustomAxis();
-            var unit = axisSettings.MeasureType == MeasureType.Imperial ? "in" : "mm";
-            var scale = axisSettings.MeasureType == MeasureType.Imperial ? Inch.Inch.ToMm(1) : 1;
+            var unit = axisSettings.UnitSystem == UnitSystem.Imperial ? "in" : "mm";
+            var scale = axisSettings.UnitSystem == UnitSystem.Imperial ? Inch.Inch.ToMm(1) : 1;
             var axisColor = axisSettings.OpenScadColor.ToString().ToLower();
-            axisModule.ModuleName = $"{axisSettings.BackgroundType}_{axisSettings.MeasureType}_{xLabel}x{yLabel}x{zLabel}";
+            axisModule.ModuleName = $"{axisSettings.BackgroundType}_{axisSettings.UnitSystem}_{xLabel}x{yLabel}x{zLabel}";
             if (xStart == 0 && yStart == 0 && zStart == 0)
             {
                 axisModule.ModuleName += "_Origin";
@@ -174,7 +172,7 @@ namespace NetScad.Core.SCAD.Modules
             axisModule.CallingMethod = $"{axisModule.ModuleName}();";
 
             var sb = new StringBuilder();
-            sb.AppendLine($"// {axisModule.ModuleName} {axisSettings.MeasureType} {AxisModuleFormats.ModuleComments}");
+            sb.AppendLine($"// {axisModule.ModuleName} {axisSettings.UnitSystem} {AxisModuleFormats.ModuleComments}");
             sb.AppendLine($"module {axisModule.ModuleName.ToLower()}(colorVal, alpha) {{");
             sb.AppendLine($"    color(colorVal, alpha) {{"); // Wrap all in color
             sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker}   }}");  // X Axis Marker

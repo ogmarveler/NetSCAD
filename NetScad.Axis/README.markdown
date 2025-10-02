@@ -45,11 +45,11 @@ Varying axes of different sizes, measurement types, colors, and combination of b
 ```csharp
 // Namespaces used for this module
 using NetScad.Core.Measurements;
-using NetScad.Core.SCAD.Modules;
+using NetScad.Axis.SCAD.Modules;
 using NetScad.Core.Utility;
 using static NetScad.Core.Measurements.FractionalInch;
-using static NetScad.Core.SCAD.Utility.AxisConfig;
-using static NetScad.Core.SCAD.Models.Selector;
+using static NetScad.Axis.SCAD.Utility.AxisConfig;
+using static NetScad.Core.Measurements.Selector;
 
 // Apply custom axis settings - will save to a SCAD file as a module
 // For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
@@ -59,7 +59,7 @@ using static NetScad.Core.SCAD.Models.Selector;
 var axisSettings = new AxisSettings(
      outputDirectory: PathHelper.GetProjectRoot(), // ..NetScad.Axis/Scad/Axis
      backgroundType: BackgroundType.Dark, // Axis color will be white or black
-     measureType: MeasureType.Imperial, // inches
+     measureType: UnitSystem.Imperial, // inches
      minX: 0, // for positive only axis, max must be positive
      maxX: Inch1.ToMm(3), // can set as inches
      minY: Inch1.ToMm(-3), // can set negative axis starting point
@@ -94,8 +94,8 @@ double minZ;
 double maxZ;
 
 // Measure Type (Optional):
-MeasureType.Imperial;
-MeasureType.Metric;
+UnitSystem.Imperial;
+UnitSystem.Metric;
 
 // Axis Color based on OpenSCAD Background (Optional):
 BackgroundType.Dark;
@@ -133,7 +133,7 @@ Another feature is the ability to measure insets from screws, or anything that w
 ```scad
 // 3D Axis Module - Light Metric 300x300x300 Origin
 // Calling Method: Get_Light_Metric_300x300x300_Origin();
-// Settings: MeasureType=Metric, MinX=0, MaxX=300, MinY=0, MaxY=300, MinZ=0, MaxZ=300
+// Settings: UnitSystem=Metric, MinX=0, MaxX=300, MinY=0, MaxY=300, MinZ=0, MaxZ=300
 include <light_metric_300x300x300_origin.scad>;
 module Get_Light_Metric_300x300x300_Origin(colorVal = "Black", alpha = 1) {
   light_metric_300x300x300_origin(colorVal = colorVal, alpha = alpha);

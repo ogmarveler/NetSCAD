@@ -1,4 +1,4 @@
-﻿namespace NetScad.Core.SCAD.Models
+﻿namespace NetScad.Axis.SCAD.Models
 {
     public class Primitive
     {
