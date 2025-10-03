@@ -11,6 +11,7 @@ namespace NetScad.Axis.SCAD.Utility
             foreach (var (coordinate, index) in coordinates.Select((v, i) => (v, i)))
             {
                 sb.Append(coordinate);
+
                 if (index < coordinates.Count - 1)
                     sb.Append(", ");
             }
@@ -21,10 +22,12 @@ namespace NetScad.Axis.SCAD.Utility
         public static string GetIterationHeader(Enum scope, string iterator, List<double> range)
         {
             StringBuilder sb = new StringBuilder();
+
             sb.Append($"{scope.ToString().ToLower()} ({iterator} = [");
             foreach (var (point, index) in range.Select((v, i) => (v, i)))
             {
                 sb.Append(point);
+
                 if (index < range.Count - 1)
                     sb.Append(":");
             }
@@ -35,7 +38,9 @@ namespace NetScad.Axis.SCAD.Utility
         public static string GetModule(string name, List<string> parameters, string content)
         {
             StringBuilder sb = new StringBuilder();
+
             sb.Append($"module {name.ToString().ToLower()} (");
+
             if (parameters is not null && parameters.Count > 0)
             {
                 foreach (var (param, index) in parameters.Select((v, i) => (v, i)))

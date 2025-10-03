@@ -29,15 +29,9 @@ namespace NetScad.Core.Measurements
 
     public static class Imperial
     {
-        public static double ToInches(this FractionalInch fraction, int numerator)
-        {
-            return numerator / (double)GetDenominator(fraction);
-        }
+        public static double ToInches(this FractionalInch fraction, int numerator) => numerator / (double)GetDenominator(fraction);
 
-        public static double ToMm(this FractionalInch fraction, int numerator)
-        {
-            return fraction.ToInches(numerator) * 25.4;
-        }
+        public static double ToMm(this FractionalInch fraction, int numerator) => fraction.ToInches(numerator) * 25.4;
 
         public static (int Numerator, int Denominator) FromMm(this FractionalInch fraction, double mm)
         {
@@ -47,15 +41,9 @@ namespace NetScad.Core.Measurements
             return (numerator, denominator);
         }
 
-        public static double ToInches(this Inch inch, int numerator)
-        {
-            return numerator; // 1 inch = numerator/1
-        }
+        public static double ToInches(this Inch inch, int numerator) => numerator; // 1 inch = numerator/1
 
-        public static double ToMm(this Inch inch, int numerator)
-        {
-            return numerator * 25.4; // inches to mm
-        }
+        public static double ToMm(this Inch inch, int numerator) => numerator * 25.4; // inches to mm
 
         public static (int Numerator, int Denominator) FromMm(this Inch inch, double mm)
         {

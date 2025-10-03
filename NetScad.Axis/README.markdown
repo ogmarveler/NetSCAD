@@ -33,9 +33,9 @@ You need to have the following installed:
 gh repo clone ogmarveler/NetSCAD
 ```
 
-2. Unless using the ``NetSCAD.Axis`` project included, create a ``Scad/Axis`` folder in your main project. Axes will be stored in this folder, and the ``axes.scad`` file will be where to call the modules from. References to each one, along with dimensions for axes are saved here.
+2. Unless using the ``NetSCAD.Axis`` project included, create a ``Scad/Axes`` folder in your main project. Axes will be stored in this folder, and the ``axes.scad`` file will be where to call the modules from. References to each one, along with dimensions for axes are saved here.
 
-3. If using VS 2022, you might need to create a blank ``axes.scad`` file outside of VS2022, and then put it in the ``Scad/Axis`` folder. The ``NetSCAD.Axis`` project already has the folder and file, so if using the ones included with the libraries, then this step can be ignored.
+3. If using VS 2022, you might need to create a blank ``axes.scad`` file outside of VS2022, and then put it in the ``Scad/Axes`` folder. The ``NetSCAD.Axis`` project already has the folder and file, so if using the ones included with the libraries, then this step can be ignored.
 
 4. A ``sample.scad`` will be in the ``Scad`` folder, which shows an example of calling the various axis modules.
 
@@ -56,8 +56,8 @@ using static NetScad.Core.Measurements.Selector;
 // For Imperial, Axis will be set to 1/4, 1/8, 1/16, and 1/32 inch increments.
 // For larger measurements, adjust Min, Max, and Scale accordingly to keep axis readable.
 // Cache if called multiple times
-var axisSettings = new AxisSettings(
-     outputDirectory: PathHelper.GetProjectRoot(), // ..NetScad.Axis/Scad/Axis
+var axSet = new AxisSettings(
+     outputDirectory: PathHelper.GetProjectRoot(), // ..NetScad.Axis/Scad/Axes
      backgroundType: BackgroundType.Dark, // Axis color will be white or black
      measureType: UnitSystem.Imperial, // inches
      minX: 0, // for positive only axis, max must be positive
@@ -69,7 +69,7 @@ var axisSettings = new AxisSettings(
 );
 // Generates (or updates a previously saved axis) and stores it in an aggregate axes file
 // The new axis can then be called as a module from your main SCAD project file
-await GUI.SetAxis(axisSettings);
+await GUI.SetAxis(axSet);
 ```
 
 ## Parameters
@@ -117,12 +117,12 @@ Inch4.ToMm(3); // 3/4" or 19.05mm
 ## Output
 The structure of the axis SCAD files are as follows. Only one reference in your main SCAD files needs to be made, and this is to the ``Axis/axes.scad`` file that stores all of the generated axis modules. You will need to apply the statement ``use <Axis/axes.scad>;`` in your main file, and then just simply call the axis module of your choice. The module can be called without any arguments, or with a different ``color`` and/or ``alpha`` parameters.
 
-```
+
 | Files                       | In Your SCAD File       | Optional parameters |
 | --------------------------- |:-----------------------:| -------------------:|
 | Axis/axes.scad              | use <Axis/axes.scad>;   |                     |
 | Axis/custom__axis_name.scad | Get_Custom_Axis_Name(); | colorVal, alpha     |
-```
+
 
 ## Examples
 This is what the module of a generated axis looks like. 

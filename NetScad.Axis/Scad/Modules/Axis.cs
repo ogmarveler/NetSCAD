@@ -5,203 +5,210 @@ using static NetScad.Axis.SCAD.Models.Primitive;
 using static NetScad.Axis.SCAD.Utility.AxisConfig;
 using static NetScad.Axis.SCAD.Utility.BlockStatement;
 using static NetScad.Core.Measurements.Selector;
+using static NetScad.Core.Measurements.Conversion;
 
 namespace NetScad.Axis.SCAD.Modules
 {
     public class Axis
     {
-        public static AxisSettings CheckAxisSettings(AxisSettings axisSettings)
+        public static AxisSettings CheckAxisSettings(AxisSettings axSet)
         {
-            if (axisSettings is not null)
+            if (axSet is not null)
             {
                 // X Axis
                 // Default to 0-300mm if range is zero
-                if (Math.Abs(axisSettings.MinX - axisSettings.MaxX) == 0)
-                {
-                    axisSettings.MinX = 0;
-                    axisSettings.MaxX = 300;
-                }
+                if (Math.Abs(axSet.MinX - axSet.MaxX) == 0) { axSet.MinX = 0; axSet.MaxX = 300; }
+
                 // Use range if min and max are above or below 0 axis points - move to 0 axis point
-                else if (axisSettings.MinX > 0 && axisSettings.MaxX > 0)
+                else if (axSet.MinX > 0 && axSet.MaxX > 0)
                 {
-                    axisSettings.MaxX = Math.Abs(axisSettings.MaxX - axisSettings.MinX);
-                    axisSettings.MinX = 0;
+                    axSet.MaxX = Math.Abs(axSet.MaxX - axSet.MinX);
+                    axSet.MinX = 0;
                 }
-                else if (axisSettings.MinX < 0 && axisSettings.MaxX < 0)
+                else if (axSet.MinX < 0 && axSet.MaxX < 0)
                 {
-                    axisSettings.MinX = Math.Abs(axisSettings.MaxX - axisSettings.MinX) * -1;
-                    axisSettings.MaxX = 0;
+                    axSet.MinX = Math.Abs(axSet.MaxX - axSet.MinX) * -1;
+                    axSet.MaxX = 0;
                 }
                 // Use range if min and max inverted default to min and max
-                else if (axisSettings.MaxX < axisSettings.MinX)
+                else if (axSet.MaxX < axSet.MinX)
                 {
-                    if (axisSettings.MaxX < 0) // MaxnX = 0, MinX --> -X
+                    if (axSet.MaxX < 0) // MaxnX = 0, MinX --> -X
                     {
-                        axisSettings.MinX = Math.Abs(axisSettings.MaxX - axisSettings.MinX) * -1;
-                        axisSettings.MaxX = 0;
+                        axSet.MinX = Math.Abs(axSet.MaxX - axSet.MinX) * -1;
+                        axSet.MaxX = 0;
                     }
                     else // MinX = 0, MaxX --> +X
                     {
-                        axisSettings.MaxX = Math.Abs(axisSettings.MaxX - axisSettings.MinX);
-                        axisSettings.MinX = 0;
+                        axSet.MaxX = Math.Abs(axSet.MaxX - axSet.MinX);
+                        axSet.MinX = 0;
                     }
                 }
 
                 // Y Axis
                 // Default to 0-300mm if range is zero
-                if (Math.Abs(axisSettings.MinY - axisSettings.MaxY) == 0)
+                if (Math.Abs(axSet.MinY - axSet.MaxY) == 0)
                 {
-                    axisSettings.MinY = 0;
-                    axisSettings.MaxY = 300;
+                    axSet.MinY = 0;
+                    axSet.MaxY = 300;
                 }
                 // Use range if min and max are above or below 0 axis points - move to 0 axis point
-                else if (axisSettings.MinY > 0 && axisSettings.MaxY > 0)
+                else if (axSet.MinY > 0 && axSet.MaxY > 0)
                 {
-                    axisSettings.MaxY = Math.Abs(axisSettings.MaxY - axisSettings.MinY);
-                    axisSettings.MinY = 0;
+                    axSet.MaxY = Math.Abs(axSet.MaxY - axSet.MinY);
+                    axSet.MinY = 0;
                 }
-                else if (axisSettings.MinY < 0 && axisSettings.MaxY < 0)
+                else if (axSet.MinY < 0 && axSet.MaxY < 0)
                 {
-                    axisSettings.MinY = Math.Abs(axisSettings.MaxY - axisSettings.MinY) * -1;
-                    axisSettings.MaxY = 0;
+                    axSet.MinY = Math.Abs(axSet.MaxY - axSet.MinY) * -1;
+                    axSet.MaxY = 0;
                 }
                 // Use range if min and max inverted default to min and max
-                else if (axisSettings.MaxY < axisSettings.MinY)
+                else if (axSet.MaxY < axSet.MinY)
                 {
-                    if (axisSettings.MaxY < 0) // MaxnY = 0, MinY --> -Y
+                    if (axSet.MaxY < 0) // MaxnY = 0, MinY --> -Y
                     {
-                        axisSettings.MinY = Math.Abs(axisSettings.MaxY - axisSettings.MinY) * -1;
-                        axisSettings.MaxY = 0;
+                        axSet.MinY = Math.Abs(axSet.MaxY - axSet.MinY) * -1;
+                        axSet.MaxY = 0;
                     }
                     else // MinY = 0, MaxY --> +Y
                     {
-                        axisSettings.MaxY = Math.Abs(axisSettings.MaxY - axisSettings.MinY);
-                        axisSettings.MinY = 0;
+                        axSet.MaxY = Math.Abs(axSet.MaxY - axSet.MinY);
+                        axSet.MinY = 0;
                     }
                 }
 
                 // Z Axis
                 // Default to 0-300mm if range is zero
-                if (Math.Abs(axisSettings.MinZ - axisSettings.MaxZ) == 0)
+                if (Math.Abs(axSet.MinZ - axSet.MaxZ) == 0)
                 {
-                    axisSettings.MinZ = 0;
-                    axisSettings.MaxZ = 300;
+                    axSet.MinZ = 0;
+                    axSet.MaxZ = 300;
                 }
                 // Use range if min and max are above or below 0 axis points - move to 0 axis point
-                else if (axisSettings.MinZ > 0 && axisSettings.MaxZ > 0)
+                else if (axSet.MinZ > 0 && axSet.MaxZ > 0)
                 {
-                    axisSettings.MaxZ = Math.Abs(axisSettings.MaxZ - axisSettings.MinZ);
-                    axisSettings.MinZ = 0;
+                    axSet.MaxZ = Math.Abs(axSet.MaxZ - axSet.MinZ);
+                    axSet.MinZ = 0;
                 }
-                else if (axisSettings.MinZ < 0 && axisSettings.MaxZ < 0)
+                else if (axSet.MinZ < 0 && axSet.MaxZ < 0)
                 {
-                    axisSettings.MinZ = Math.Abs(axisSettings.MaxZ - axisSettings.MinZ) * -1;
-                    axisSettings.MaxZ = 0;
+                    axSet.MinZ = Math.Abs(axSet.MaxZ - axSet.MinZ) * -1;
+                    axSet.MaxZ = 0;
                 }
                 // Use range if min and max inverted default to min and max
-                else if (axisSettings.MaxZ < axisSettings.MinZ)
+                else if (axSet.MaxZ < axSet.MinZ)
                 {
-                    if (axisSettings.MaxZ < 0) // MaxnZ = 0, MinZ --> -Z
+                    if (axSet.MaxZ < 0) // MaxnZ = 0, MinZ --> -Z
                     {
-                        axisSettings.MinZ = Math.Abs(axisSettings.MaxZ - axisSettings.MinZ) * -1;
-                        axisSettings.MaxZ = 0;
+                        axSet.MinZ = Math.Abs(axSet.MaxZ - axSet.MinZ) * -1;
+                        axSet.MaxZ = 0;
                     }
                     else // MinZ = 0, MaxZ --> +Z
                     {
-                        axisSettings.MaxZ = Math.Abs(axisSettings.MaxZ - axisSettings.MinZ);
-                        axisSettings.MinZ = 0;
+                        axSet.MaxZ = Math.Abs(axSet.MaxZ - axSet.MinZ);
+                        axSet.MinZ = 0;
                     }
                 }
 
                 // For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.
                 // For Imperial, Axis will be set to 1/4, 1/8, 1/16, and 1/32 inch increments.
                 // For larger measurements, adjust Min, Max, and Scale accordingly to keep axis readable.
-                var precision = axisSettings.UnitSystem == UnitSystem.Imperial ? FractionalInch.Inch4.ToMm(1) : 1;
-
-                axisSettings.MinX = AdjustCoordinate(coordinate: axisSettings.MinX, increment: axisSettings.IncrementX, precision: precision);
-                axisSettings.MaxX = AdjustCoordinate(coordinate: axisSettings.MaxX, increment: axisSettings.IncrementX, precision: precision);
-
-                axisSettings.MinY = AdjustCoordinate(coordinate: axisSettings.MinY, increment: axisSettings.IncrementY, precision: precision);
-                axisSettings.MaxY = AdjustCoordinate(coordinate: axisSettings.MaxY, increment: axisSettings.IncrementY, precision: precision);
-
-                axisSettings.MinZ = AdjustCoordinate(coordinate: axisSettings.MinZ, increment: axisSettings.IncrementZ, precision: precision);
-                axisSettings.MaxZ = AdjustCoordinate(coordinate: axisSettings.MaxZ, increment: axisSettings.IncrementZ, precision: precision);
+                var precision = axSet.UnitSystem == UnitSystem.Imperial ? FractionalInch.Inch4.ToMm(1) : 1;
+                axSet.MinX = AdjustCoordinate(coordinate: axSet.MinX, increment: axSet.IncrementX, precision: precision);
+                axSet.MaxX = AdjustCoordinate(coordinate: axSet.MaxX, increment: axSet.IncrementX, precision: precision);
+                axSet.MinY = AdjustCoordinate(coordinate: axSet.MinY, increment: axSet.IncrementY, precision: precision);
+                axSet.MaxY = AdjustCoordinate(coordinate: axSet.MaxY, increment: axSet.IncrementY, precision: precision);
+                axSet.MinZ = AdjustCoordinate(coordinate: axSet.MinZ, increment: axSet.IncrementZ, precision: precision);
+                axSet.MaxZ = AdjustCoordinate(coordinate: axSet.MaxZ, increment: axSet.IncrementZ, precision: precision);
             }
-            else
-            {
-                axisSettings = new AxisSettings(
-                    outputDirectory: PathHelper.GetProjectRoot()
-                    );
-            }
-
-            return axisSettings;
+            else { axSet = new AxisSettings(outputDirectory: PathHelper.GetProjectRoot()); }
+            return axSet;
         }
 
-        public static CustomAxis ConfigureAxisModule(AxisSettings axisSettings)
+        public static CustomAxis ConfigureAxisModule(AxisSettings axSet)
         {
             // Object to hold the module, color, and labels
             // Create unique module name based on settings
-            var xAxis = Math.Abs(axisSettings.MaxX - axisSettings.MinX);
-            var yAxis = Math.Abs(axisSettings.MaxY - axisSettings.MinY);
-            var zAxis = Math.Abs(axisSettings.MaxZ - axisSettings.MinZ);
+            var xAxis = Math.Abs(axSet.MaxX - axSet.MinX);
+            var yAxis = Math.Abs(axSet.MaxY - axSet.MinY);
+            var zAxis = Math.Abs(axSet.MaxZ - axSet.MinZ);
 
-            // Labels based on measurement type and total cubic size
-            var xLabel = axisSettings.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(xAxis / Inch.Inch.ToMm(1), 0)}" : $"{xAxis}";
-            var yLabel = axisSettings.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(yAxis / Inch.Inch.ToMm(1), 0)}" : $"{yAxis}";
-            var zLabel = axisSettings.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(zAxis / Inch.Inch.ToMm(1), 0)}" : $"{zAxis}";
+            // Labels based on measurement type and total cubic size - mm to inches or mm
+            var xLabel = axSet.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(MillimeterToInches(xAxis), 0)}" : $"{xAxis}";
+            var yLabel = axSet.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(MillimeterToInches(yAxis), 0)}" : $"{yAxis}";
+            var zLabel = axSet.UnitSystem == UnitSystem.Imperial ? $"{Math.Round(MillimeterToInches(zAxis), 0)}" : $"{zAxis}";
+
+            // Total cubic volume of the workspace - mm to inches or mm to cm
+            var xMsr = axSet.UnitSystem == UnitSystem.Imperial ? MillimeterToInches(xAxis) : MillimeterToCentimeter(xAxis);
+            var yMsr = axSet.UnitSystem == UnitSystem.Imperial ? MillimeterToInches(yAxis) : MillimeterToCentimeter(yAxis);
+            var zMsr = axSet.UnitSystem == UnitSystem.Imperial ? MillimeterToInches(zAxis) : MillimeterToCentimeter(zAxis);
+            var tVolume = xMsr * yMsr * zMsr; // inches^3 or cm^3
+
+            // Measure in cubic feet or cubic meters - mm to feet or mm to meter
+            var xMsrScale = axSet.UnitSystem == UnitSystem.Imperial ? MillimeterToFeet(xAxis) : MillimeterToMeter(xAxis);
+            var yMsrScale = axSet.UnitSystem == UnitSystem.Imperial ? MillimeterToFeet(yAxis) : MillimeterToMeter(yAxis);
+            var zMsrScale = axSet.UnitSystem == UnitSystem.Imperial ? MillimeterToFeet(zAxis) : MillimeterToMeter(zAxis);
+            var tVolumeScale = xMsrScale * yMsrScale * zMsrScale; // ft^3 or mtr^3
 
             // Labels based on measurement type and axis start point
-            var xStart = axisSettings.UnitSystem == UnitSystem.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinX), 0) : axisSettings.MinX;
-            var yStart = axisSettings.UnitSystem == UnitSystem.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinY), 0) : axisSettings.MinY;
-            var zStart = axisSettings.UnitSystem == UnitSystem.Imperial ? Math.Round(Conversion.MmToInches(axisSettings.MinZ), 0) : axisSettings.MinZ;
-            var startLabel = $"_Start_{xStart}x{yStart}x{zStart}".Replace("-", "Neg");
-            // Create the Axis Module
-            var axisModule = new CustomAxis();
-            var unit = axisSettings.UnitSystem == UnitSystem.Imperial ? "in" : "mm";
-            var scale = axisSettings.UnitSystem == UnitSystem.Imperial ? Inch.Inch.ToMm(1) : 1;
-            var axisColor = axisSettings.OpenScadColor.ToString().ToLower();
-            axisModule.ModuleName = $"{axisSettings.BackgroundType}_{axisSettings.UnitSystem}_{xLabel}x{yLabel}x{zLabel}";
-            if (xStart == 0 && yStart == 0 && zStart == 0)
-            {
-                axisModule.ModuleName += "_Origin";
-            }
-            else
-            {
-                axisModule.ModuleName += startLabel;
-            }
-            axisModule.CallingMethod = $"{axisModule.ModuleName}();";
+            var xStart = axSet.UnitSystem == UnitSystem.Imperial ? Math.Round(MillimeterToInches(axSet.MinX), 0) : axSet.MinX;
+            var yStart = axSet.UnitSystem == UnitSystem.Imperial ? Math.Round(MillimeterToInches(axSet.MinY), 0) : axSet.MinY;
+            var zStart = axSet.UnitSystem == UnitSystem.Imperial ? Math.Round(MillimeterToInches(axSet.MinZ), 0) : axSet.MinZ;
+            var startLabel = $"_Orig_{xStart}x{yStart}x{zStart}".Replace("-", "N");
 
+            // Create the Axis Module
+            var axMod = new CustomAxis();
+
+            // Add the total cubic volume measurements
+            axMod.TotalCubicVolume = tVolume;
+            axMod.TotalCubicVolumeScale = tVolumeScale;
+            var unit = axSet.UnitSystem == UnitSystem.Imperial ? "in" : "mm";
+            var unitLabel = axSet.UnitSystem == UnitSystem.Imperial ? "Inch" : "MM";
+            var scale = axSet.UnitSystem == UnitSystem.Imperial ? Inch.Inch.ToMm(1) : 1;
+            var axisColor = axSet.OpenScadColor.ToString().ToLower();
+
+            // Labels for module names and call methods
+            axMod.ModuleName = $"{axSet.BackgroundType}_{xLabel}x{yLabel}x{zLabel}_{unitLabel}";
+            // For negative axis origins
+            if (xStart == 0 && yStart == 0 && zStart == 0) { axMod.ModuleName += "_Orig_0x0x0"; }
+            else { axMod.ModuleName += startLabel; }
+
+            // Call Method in user's main SCAD file for axis retrieval from axis library
+            axMod.CallingMethod = $"Get_{axMod.ModuleName}();";
+
+            // Create Axis Module
             var sb = new StringBuilder();
-            sb.AppendLine($"// {axisModule.ModuleName} {axisSettings.UnitSystem} {AxisModuleFormats.ModuleComments}");
-            sb.AppendLine($"module {axisModule.ModuleName.ToLower()}(colorVal, alpha) {{");
+            sb.AppendLine($"// {axMod.ModuleName} {axSet.UnitSystem} {AxisModuleFormats.ModuleComments}");
+            sb.AppendLine($"module {axMod.ModuleName.ToLower()}(colorVal, alpha) {{");
             sb.AppendLine($"    color(colorVal, alpha) {{"); // Wrap all in color
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker}   }}");  // X Axis Marker
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetMarker}   }}");  // Y Axis Marker
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker}   }}");  // Z Axis Marker
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX2, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker2}   }}");  // X Axis Marker 2
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY2, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetMarker2}   }}");  // Y Axis Marker 2
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ2, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker2}   }}");  // Z Axis Marker 2
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX3, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker3}   }}");  // X Axis Marker 3
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY3, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetMarker3}   }}");  // Y Axis Marker 3
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ3, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker3}   }}");  // Z Axis Marker 3
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axisSettings.MinX, axisSettings.IncrementX4, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetMarker4}   }}");  // X Axis Marker 4
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axisSettings.MinY, axisSettings.IncrementY4, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetMarker4}   }}");  // Y Axis Marker 4
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axisSettings.MinZ, axisSettings.IncrementZ4, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker4}   }}");  // Z Axis Marker 4
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker}   }}");  // X Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker}   }}");  // Y Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker}   }}");  // Z Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX2, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker2}   }}");  // X Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY2, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker2}   }}");  // Y Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ2, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker2}   }}");  // Z Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX3, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker3}   }}");  // X Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY3, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker3}   }}");  // Y Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ3, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker3}   }}");  // Z Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX4, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker4}   }}");  // X Axis Marker 4
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY4, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker4}   }}");  // Y Axis Marker 4
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ4, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker4}   }}");  // Z Axis Marker 4
             sb.AppendLine($"         // Axis Labels"); // Create the Axis Markers - main marker used for measurements, half and quarter markers for visual reference
             sb.AppendLine($"         unit = \"{unit}\";"); // Set unit for labels
             sb.AppendLine($"         scale = {scale};\n"); // Set scale for labels
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinX, axisSettings.IncrementX, axisSettings.MaxX])}{{   {AxisModuleFormats.XOffsetLabel}   }}");  // X Axis Label
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinY, axisSettings.IncrementY, axisSettings.MaxY])}{{   {AxisModuleFormats.YOffsetLabel}   }}");  // Y Axis Label
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axisSettings.MinZ, axisSettings.IncrementZ, axisSettings.MaxZ])}{{   {AxisModuleFormats.ZOffsetLabel}   }}");  // Z Axis Label
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axSet.MinX, axSet.IncrementX, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetLabel}   }}");  // X Axis Label
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axSet.MinY, axSet.IncrementY, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetLabel}   }}");  // Y Axis Label
+            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axSet.MinZ, axSet.IncrementZ, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetLabel}   }}");  // Z Axis Label
             sb.AppendLine($"  }}");
             sb.AppendLine($"}}");
-            sb.AppendLine($"// End of {axisModule.ModuleName} Module");
-
-            axisModule.AxisModule = sb.ToString();
+            sb.AppendLine($"// End of {axMod.ModuleName} Module");
+            // Module contents
+            axMod.AxisModule = sb.ToString();
 
             // Include the settings used to create the axis for reference
-            axisModule.Settings = axisSettings;
-            return axisModule;
+            axMod.Settings = axSet;
+            return axMod;
         }
     }
 }

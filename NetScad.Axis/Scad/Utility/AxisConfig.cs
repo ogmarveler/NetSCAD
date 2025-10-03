@@ -1,8 +1,9 @@
 ﻿using NetScad.Core.Measurements;
 using NetScad.Core.Utility;
+using static NetScad.Axis.SCAD.Models.Colors;
 using static NetScad.Core.Measurements.FractionalInch;
 using static NetScad.Core.Measurements.Selector;
-using static NetScad.Axis.SCAD.Models.Colors;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace NetScad.Axis.SCAD.Utility
 {
@@ -16,24 +17,26 @@ namespace NetScad.Axis.SCAD.Utility
                 return coordinate;
 
             double scaledCoord = coordinate * scale;
-            double remainder = Math.Round(scaledCoord % increment,5);
+            double remainder = Math.Round(scaledCoord % increment,5); // - nearest increment is scope, so precision is exact
+
             if (remainder == 0)
                 return coordinate; // Already valid
+
             // Round up to the next increment
             double adjustedScaled = 0;
             if (scaledCoord > 0)
                 adjustedScaled = scaledCoord + increment - remainder;  // Positive axis <-
             else
                 adjustedScaled = scaledCoord - increment - remainder; // Negative axis ->
-            // Adjust back to original scale and round to specified precision
+
+            // Adjust back to original scale and round to specified precision - nearest increment is scope, so precision is exact
             return Math.Round(adjustedScaled,5);
         }
 
         public static bool ValidateDivision(double axisLength, double increment, double scale = 1.0)
         {
             // Ensure non-zero values to avoid division by zero
-            if (increment == 0 || scale == 0)
-                return false;
+            if (increment == 0 || scale == 0) return false;
 
             // Apply scale to axis length
             double scaledLength = axisLength * scale;
@@ -44,17 +47,16 @@ namespace NetScad.Axis.SCAD.Utility
 
         public static (bool IsValid, double AdjustedIncrement) SuggestIncrement(double axisLength, double increment, double scale = 1.0)
         {
-            if (increment == 0 || scale == 0)
-                return (false, increment);
+            if (increment == 0 || scale == 0) return (false, increment);
 
             double scaledLength = axisLength * scale;
 
             // If divisible, return original increment
-            if (scaledLength % increment == 0)
-                return (true, increment);
+            if (scaledLength % increment == 0) return (true, increment);
 
             // Suggest the nearest increment that divides evenly
             double adjusted = Math.Ceiling(scaledLength / increment) * increment;
+
             return (false, adjusted / scale); // Adjust back to original scale
         }
 
@@ -85,7 +87,8 @@ namespace NetScad.Axis.SCAD.Utility
                 "// - MinZ, MaxZ: Minimum and maximum values for the Z axis (default: 0 to 300mm)\n";
         }
 
-        public class AxisSettings(string outputDirectory, BackgroundType backgroundType = BackgroundType.Light, UnitSystem measureType = UnitSystem.Metric, double minX = 0, double minY = 0, double minZ = 0, double maxX = 300, double maxY = 300, double maxZ = 300)
+        public class AxisSettings(string outputDirectory, BackgroundType backgroundType = BackgroundType.Light, UnitSystem measureType = UnitSystem.Metric, 
+            double minX = 0, double minY = 0, double minZ = 0, double maxX = 300, double maxY = 300, double maxZ = 300)
         {
             public BackgroundType BackgroundType { get; set; } = backgroundType;
             public UnitSystem UnitSystem { get; set; } = measureType;
@@ -121,6 +124,9 @@ namespace NetScad.Axis.SCAD.Utility
             public AxisSettings Settings { get; set; } = new AxisSettings(outputDirectory: PathHelper.GetProjectRoot());
             public string CallingMethod { get; set; } = string.Empty;
             public string ModuleName { get; set; } = string.Empty;
+            public string MainFileInstruction => "use <Axes/axes.scad>;  // add to your main file";
+            public double TotalCubicVolume { get; set; } = 0;
+            public double TotalCubicVolumeScale { get; set; } = 0;
         }
     }
 }
