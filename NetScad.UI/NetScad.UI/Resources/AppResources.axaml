@@ -1,0 +1,60 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="clr-namespace:NetScad.UI.Converters;assembly=NetScad.UI"
+    xmlns:local="clr-namespace:NetScad.UI.Views;"
+    xmlns:model="clr-namespace:NetScad.UI.Models"
+    xmlns:views="using:NetScad.UI.Views"
+    xmlns:vm="clr-namespace:NetScad.UI.ViewModels;assembly=NetScad.UI"
+    x:CompileBindings="True">
+
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!--  Add Controls for Previewer Here  -->
+        </Border>
+    </Design.PreviewWith>
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="CardBackground" Color="White" />
+            <SolidColorBrush x:Key="CardForeground" Color="Black" />
+            <SolidColorBrush x:Key="WindowBackground" Color="#F5F5F5" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="CardBackground" Color="#212121" />
+            <SolidColorBrush x:Key="CardForeground" Color="White" />
+            <SolidColorBrush x:Key="WindowBackground" Color="#121212" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <!--  Convert for Enum descriptions  -->
+    <conv:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+
+    <!--  Unit Selection Combo Box  -->
+    <StackPanel x:Key="UnitComboBox" x:DataType="vm:CreateAxesViewModel">
+        <ComboBox
+            Classes="card"
+            ItemsSource="{Binding UnitSystemValues}"
+            SelectedValue="{Binding SelectedUnitValue}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
+
+    <!--  Unit Selection Combo Box  -->
+    <StackPanel x:Key="BackgroundComboBox" x:DataType="vm:CreateAxesViewModel">
+        <ComboBox
+            Classes="card"
+            ItemsSource="{Binding BackgroundTypeValues}"
+            SelectedValue="{Binding SelectedBackgroundValue}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
+
+</ResourceDictionary>

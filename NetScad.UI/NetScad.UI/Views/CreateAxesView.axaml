@@ -1,0 +1,520 @@
+<UserControl
+    x:Class="NetScad.UI.Views.CreateAxesView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NetScad.UI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:views="using:NetScad.UI.Views"
+    xmlns:vm="using:NetScad.UI.ViewModels"
+    d:DesignHeight="720"
+    d:DesignWidth="1280"
+    x:CompileBindings="True"
+    x:DataType="vm:CreateAxesViewModel"
+    Background="{DynamicResource WindowBackground}"
+    mc:Ignorable="d">
+
+    <Grid
+        Margin="0"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Top"
+        Background="{DynamicResource CardBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160" />
+            <ColumnDefinition Width="160" />
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Unit Selection Combo Box  -->
+
+        <Separator
+            Grid.Row="1"
+            Grid.ColumnSpan="4"
+            Margin="20"
+            VerticalAlignment="Stretch"
+            Opacity="0.5"
+            Visual.FlowDirection="LeftToRight" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="{DynamicResource CardBackground}"
+            Classes="textbox"
+            FontSize="15"
+            FontWeight="SemiBold"
+            Opacity="0.75"
+            Text="Custom Axes Generator" />
+
+        <!--  Unit Selection Combo Box  -->
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Classes="textbox"
+            Text="Unit Type" />
+
+        <ContentControl
+            Grid.Row="2"
+            Grid.Column="1"
+            Content="{DynamicResource UnitComboBox}" />
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            Background="{DynamicResource CardBackground}"
+            FontSize="18"
+            FontWeight="SemiBold"
+            Foreground="{DynamicResource CardForeground}"
+            Text="💬">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Enter X,Y,Z inputs according to the unit type." />
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBlock>
+
+        <!--  Change Unit Measure of X, Y, Z  -->
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="10,10,20,10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Click="_ConvertInputsAsync"
+            Content="Convert Inputs"
+            IsVisible="False">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch">
+                        Select a different Unit Type to convert the<LineBreak />
+                        X,Y,Z inputs to the newly selected unit type.</TextBlock>
+                </StackPanel>
+            </ToolTip.Tip>
+        </Button>
+
+        <!--  Background Type Combo Box  -->
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Classes="textbox"
+            Text="OpenSCAD" />
+        <ContentControl
+            Grid.Row="3"
+            Grid.Column="1"
+            Content="{DynamicResource BackgroundComboBox}" />
+
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            Background="{DynamicResource CardBackground}"
+            FontSize="18"
+            FontWeight="SemiBold"
+            Foreground="{DynamicResource CardForeground}"
+            Text="💬">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch" Text="This is the color scheme set in your OpenSCAD." />
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBlock>
+
+        <!--  Min and Max Input Boxes  -->
+        <!--  X  -->
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            Classes="textbox"
+            Text="Minimum X" />
+
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Classes="card"
+            SelectionBrush="Yellow"
+            Text="{Binding MinXValue}" />
+
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsMetric}"
+            Text="mm" />
+
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsImperial}"
+            Text="in." />
+
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="0"
+            Classes="textbox"
+            Text="Maximum X" />
+
+        <TextBox
+            Grid.Row="5"
+            Grid.Column="1"
+            Classes="card"
+            SelectionBrush="Yellow"
+            Text="{Binding MaxXValue}" />
+
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsMetric}"
+            Text="mm" />
+
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsImperial}"
+            Text="in." />
+
+        <!--  Y  -->
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="0"
+            Classes="textbox"
+            Text="Minimum Y" />
+        <TextBox
+            Grid.Row="6"
+            Grid.Column="1"
+            Classes="card"
+            SelectionBrush="Yellow"
+            Text="{Binding MinYValue}" />
+
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsMetric}"
+            Text="mm" />
+
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsImperial}"
+            Text="in." />
+
+        <TextBlock
+            Grid.Row="7"
+            Grid.Column="0"
+            Classes="textbox"
+            Text="Maximum Y" />
+        <TextBox
+            Grid.Row="7"
+            Grid.Column="1"
+            Classes="card"
+            SelectionBrush="Yellow"
+            Text="{Binding MaxYValue}" />
+
+        <TextBlock
+            Grid.Row="7"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsMetric}"
+            Text="mm" />
+
+        <TextBlock
+            Grid.Row="7"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsImperial}"
+            Text="in." />
+
+        <!--  Z  -->
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="0"
+            Classes="textbox"
+            Text="Minimum Z" />
+        <TextBox
+            Grid.Row="8"
+            Grid.Column="1"
+            Classes="card"
+            SelectionBrush="Yellow"
+            Text="{Binding MinZValue}" />
+
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsMetric}"
+            Text="mm" />
+
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsImperial}"
+            Text="in." />
+
+        <TextBlock
+            Grid.Row="9"
+            Grid.Column="0"
+            Classes="textbox"
+            Text="Maximum Z" />
+        <TextBox
+            Grid.Row="9"
+            Grid.Column="1"
+            Classes="card"
+            SelectionBrush="Yellow"
+            Text="{Binding MaxZValue}" />
+
+        <TextBlock
+            Grid.Row="9"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsMetric}"
+            Text="mm" />
+
+        <TextBlock
+            Grid.Row="9"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            IsVisible="{Binding IsImperial}"
+            Text="in." />
+
+        <!--  Clear inputs  -->
+        <Button
+            Grid.Row="11"
+            Grid.Column="0"
+            MaxWidth="90"
+            Margin="10"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            BorderBrush="{DynamicResource CardForeground}"
+            BorderThickness="1"
+            Click="_ClearInputsAsync"
+            Content="Clear"
+            IsEnabled="True">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock>
+                        Clears all X,Y,Z inputs, unit type and theme.
+                    </TextBlock>
+                </StackPanel>
+            </ToolTip.Tip>
+        </Button>
+
+        <!--  Run the Axes Generator  -->
+        <Button
+            Grid.Row="11"
+            Grid.Column="1"
+            Margin="10"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            BorderBrush="{DynamicResource CardForeground}"
+            BorderThickness="1"
+            Click="_CreateCustomAxisAsync"
+            Content="Create Axis"
+            IsEnabled="True">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch">
+                        This action will create a custom axis, to be<LineBreak />
+                        used inchOpenSCAD, from the X,Y,Z inputs.</TextBlock>
+                </StackPanel>
+            </ToolTip.Tip>
+        </Button>
+
+        <TextBlock
+            Grid.Row="11"
+            Grid.Column="2"
+            Margin="15,0,20,0"
+            VerticalAlignment="Center"
+            Background="{DynamicResource CardBackground}"
+            FontSize="18"
+            FontWeight="SemiBold"
+            Foreground="{DynamicResource CardForeground}"
+            Text="💬">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch">
+                        Once an axis is created, you will see details<LineBreak />
+                        of it displayed here. Open the Axes folder<LineBreak />
+                        from the link on the left side to view all<LineBreak />
+                        created axes, axes.scad, and sample.scad.</TextBlock>
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBlock>
+
+        <Separator
+            Grid.Row="12"
+            Grid.ColumnSpan="4"
+            Margin="20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Opacity="0.5"
+            Visual.FlowDirection="LeftToRight" />
+
+        <TextBlock
+            Grid.Row="12"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Margin="20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Background="{DynamicResource CardBackground}"
+            Classes="textbox"
+            FontSize="15"
+            FontWeight="SemiBold"
+            Opacity="0.75"
+            Text="SCAD Output" />
+
+        <!--  Volume Detail  -->
+
+        <!--  Inches or Centimeters  -->
+        <StackPanel
+            Grid.Row="13"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="20,0,20,10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            IsVisible="{Binding AxisDetailsShown}"
+            Orientation="Horizontal">
+            <SelectableTextBlock
+                xml:space="preserve"
+                FontWeight="SemiBold"
+                SelectionBrush="Yellow"
+                Text="{Binding TotalCubicVolume, StringFormat='{}{0:F2}'}" />
+
+            <TextBlock
+                FontSize="16"
+                FontWeight="SemiBold"
+                IsVisible="{Binding IsMetric}"
+                Text=" cm³" />
+            <TextBlock
+                FontSize="16"
+                FontWeight="SemiBold"
+                IsVisible="{Binding IsImperial}"
+                Text=" in³" />
+        </StackPanel>
+
+        <!--  Feet or Meters  -->
+        <StackPanel
+            Grid.Row="13"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="30,0,20,10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            IsVisible="{Binding AxisDetailsShown}"
+            Orientation="Horizontal">
+            <SelectableTextBlock
+                xml:space="preserve"
+                FontWeight="SemiBold"
+                SelectionBrush="Yellow"
+                SelectionForegroundBrush="{DynamicResource CardForeground}"
+                Text="{Binding TotalCubicVolumeScale, StringFormat='{}{0:F2}'}" />
+
+            <TextBlock
+                FontSize="16"
+                FontWeight="SemiBold"
+                IsVisible="{Binding IsMetric}"
+                Text=" m³" />
+            <TextBlock
+                FontSize="16"
+                FontWeight="SemiBold"
+                IsVisible="{Binding IsImperial}"
+                Text=" ft³" />
+        </StackPanel>
+
+        <TextBlock
+            Grid.Row="13"
+            Grid.Column="2"
+            Margin="15,0,20,10"
+            VerticalAlignment="Center"
+            FontSize="18"
+            FontWeight="Bold"
+            Foreground="{DynamicResource CardForeground}"
+            IsVisible="{Binding AxisDetailsShown}"
+            Text="🧊" />
+
+        <!--  Display Axes Calling Method - Needs to be Selectable  -->
+
+        <TextBlock
+            Grid.Row="14"
+            Grid.Column="2"
+            Margin="15,0,20,20"
+            VerticalAlignment="Center"
+            FontSize="18"
+            FontWeight="Bold"
+            Foreground="Green"
+            IsVisible="{Binding AxisDetailsShown}"
+            Text="✔" />
+
+        <SelectableTextBlock
+            Grid.Row="14"
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            Margin="20,0,20,20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            xml:space="preserve"
+            Background="{DynamicResource CardBackground}"
+            Classes="card"
+            FontWeight="SemiBold"
+            Foreground="{DynamicResource CardForeground}"
+            IsVisible="{Binding AxisDetailsShown}"
+            SelectionBrush="Yellow"
+            Text="{Binding CallingMethod}" />
+
+
+        <!--  Embed Axes List View  -->
+
+    </Grid>
+</UserControl>
