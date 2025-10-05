@@ -17,7 +17,7 @@
     <AvaloniaXaml Remove="Assets\Icons\ResourceDictionary.axaml" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup>  
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
