@@ -23,20 +23,20 @@ module Get_Dark_300x300x300_MM_Orig_0x0x0(colorVal = "White", alpha = 1) {
   dark_300x300x300_mm_orig_0x0x0(colorVal = colorVal, alpha = alpha);
 }
 
-// 3D Axis Module - Light 12x12x12 Inch Orig 0x0x0
-// Calling Method: Get_Get_Light_12x12x12_Inch_Orig_0x0x0();
-// Settings: UnitSystem=Imperial, BackgroundType=Light, MinX=0, MaxX=304.8, MinY=0, MaxY=304.8, MinZ=0, MaxZ=304.8
-include <light_12x12x12_inch_orig_0x0x0.scad>;
-module Get_Light_12x12x12_Inch_Orig_0x0x0(colorVal = "Black", alpha = 1) {
-  light_12x12x12_inch_orig_0x0x0(colorVal = colorVal, alpha = alpha);
-}
-
 // 3D Axis Module - Dark 12x12x12 Inch Orig 0x0x0
 // Calling Method: Get_Get_Dark_12x12x12_Inch_Orig_0x0x0();
 // Settings: UnitSystem=Imperial, BackgroundType=Dark, MinX=0, MaxX=304.8, MinY=0, MaxY=304.8, MinZ=0, MaxZ=304.8
 include <dark_12x12x12_inch_orig_0x0x0.scad>;
 module Get_Dark_12x12x12_Inch_Orig_0x0x0(colorVal = "White", alpha = 1) {
   dark_12x12x12_inch_orig_0x0x0(colorVal = colorVal, alpha = alpha);
+}
+
+// 3D Axis Module - Light 12x12x12 Inch Orig 0x0x0
+// Calling Method: Get_Get_Light_12x12x12_Inch_Orig_0x0x0();
+// Settings: UnitSystem=Imperial, BackgroundType=Light, MinX=0, MaxX=304.8, MinY=0, MaxY=304.8, MinZ=0, MaxZ=304.8
+include <light_12x12x12_inch_orig_0x0x0.scad>;
+module Get_Light_12x12x12_Inch_Orig_0x0x0(colorVal = "Black", alpha = 1) {
+  light_12x12x12_inch_orig_0x0x0(colorVal = colorVal, alpha = alpha);
 }
 
 // 3D Axis Module - Dark 3x3x4 Inch Orig N1x0xN1
@@ -69,45 +69,5 @@ module Get_Light_100x80x120_MM_Orig_N40x0xN40(colorVal = "Black", alpha = 1) {
 include <dark_100x80x120_mm_orig_n40x0xn40.scad>;
 module Get_Dark_100x80x120_MM_Orig_N40x0xN40(colorVal = "White", alpha = 1) {
   dark_100x80x120_mm_orig_n40x0xn40(colorVal = colorVal, alpha = alpha);
-}
-
-// 3D Axis Module - Dark 18x18x18 Inch Orig N6xN6xN6
-// Calling Method: Get_Get_Dark_18x18x18_Inch_Orig_N6xN6xN6();
-// Settings: UnitSystem=Imperial, BackgroundType=Dark, MinX=-152.4, MaxX=304.8, MinY=-152.4, MaxY=304.8, MinZ=-152.4, MaxZ=304.8
-include <dark_18x18x18_inch_orig_n6xn6xn6.scad>;
-module Get_Dark_18x18x18_Inch_Orig_N6xN6xN6(colorVal = "White", alpha = 1) {
-  dark_18x18x18_inch_orig_n6xn6xn6(colorVal = colorVal, alpha = alpha);
-}
-
-// 3D Axis Module - Light 18x18x18 Inch Orig N6xN6xN6
-// Calling Method: Get_Get_Light_18x18x18_Inch_Orig_N6xN6xN6();
-// Settings: UnitSystem=Imperial, BackgroundType=Light, MinX=-152.4, MaxX=304.8, MinY=-152.4, MaxY=304.8, MinZ=-152.4, MaxZ=304.8
-include <light_18x18x18_inch_orig_n6xn6xn6.scad>;
-module Get_Light_18x18x18_Inch_Orig_N6xN6xN6(colorVal = "Black", alpha = 1) {
-  light_18x18x18_inch_orig_n6xn6xn6(colorVal = colorVal, alpha = alpha);
-}
-
-// 3D Axis Module - Dark 480x480x480 MM Orig N160xN160xN160
-// Calling Method: Get_Get_Dark_480x480x480_MM_Orig_N160xN160xN160();
-// Settings: UnitSystem=Metric, BackgroundType=Dark, MinX=-160, MaxX=320, MinY=-160, MaxY=320, MinZ=-160, MaxZ=320
-include <dark_480x480x480_mm_orig_n160xn160xn160.scad>;
-module Get_Dark_480x480x480_MM_Orig_N160xN160xN160(colorVal = "White", alpha = 1) {
-  dark_480x480x480_mm_orig_n160xn160xn160(colorVal = colorVal, alpha = alpha);
-}
-
-// 3D Axis Module - Light 480x480x480 MM Orig N160xN160xN160
-// Calling Method: Get_Get_Light_480x480x480_MM_Orig_N160xN160xN160();
-// Settings: UnitSystem=Metric, BackgroundType=Light, MinX=-160, MaxX=320, MinY=-160, MaxY=320, MinZ=-160, MaxZ=320
-include <light_480x480x480_mm_orig_n160xn160xn160.scad>;
-module Get_Light_480x480x480_MM_Orig_N160xN160xN160(colorVal = "Black", alpha = 1) {
-  light_480x480x480_mm_orig_n160xn160xn160(colorVal = colorVal, alpha = alpha);
-}
-
-// 3D Axis Module - Dark 10x10x10 Inch Orig N4xN4xN4
-// Calling Method: Get_Get_Dark_10x10x10_Inch_Orig_N4xN4xN4();
-// Settings: UnitSystem=Imperial, BackgroundType=Dark, MinX=-101.6, MaxX=152.4, MinY=-101.6, MaxY=152.4, MinZ=-101.6, MaxZ=152.4
-include <dark_10x10x10_inch_orig_n4xn4xn4.scad>;
-module Get_Dark_10x10x10_Inch_Orig_N4xN4xN4(colorVal = "White", alpha = 1) {
-  dark_10x10x10_inch_orig_n4xn4xn4(colorVal = colorVal, alpha = alpha);
 }
 

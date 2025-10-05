@@ -17,6 +17,8 @@
     Background="{DynamicResource WindowBackground}"
     mc:Ignorable="d">
 
+    <UserControl.Styles />
+
     <Grid
         Margin="0"
         HorizontalAlignment="Stretch"

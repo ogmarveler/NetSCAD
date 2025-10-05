@@ -7,18 +7,13 @@ use <Axes/axes.scad>;
 //Get_Light_300x300x300_MM_Orig_0x0x0();
 //Get_Dark_300x300x300_MM_Orig_0x0x0();
 //Get_Light_100x80x120_MM_Orig_N40x0xN40();
-//Get_Dark_100x80x120_MM_Orig_N40x0xN40();
-//Get_Dark_480x480x480_MM_Orig_N160xN160xN160();
-//Get_Light_480x480x480_MM_Orig_N160xN160xN160();
-
+Get_Dark_100x80x120_MM_Orig_N40x0xN40();
 
 // 1/32 inch increments
 //Get_Dark_12x12x12_Inch_Orig_0x0x0();
 //Get_Light_12x12x12_Inch_Orig_0x0x0();
-Get_Dark_3x3x4_Inch_Orig_N1x0xN1();
+//Get_Dark_3x3x4_Inch_Orig_N1x0xN1();
 //Get_Light_3x3x4_Inch_Orig_N1x0xN1();
-//Get_Dark_18x18x18_Inch_Orig_N6xN6xN6();
-//Get_Light_18x18x18_Inch_Orig_N6xN6xN6();
 
 
 // Basic shapes for scale reference - 1 inch (25.4mm) cube

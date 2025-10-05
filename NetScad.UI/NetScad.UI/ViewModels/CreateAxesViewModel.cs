@@ -1,3 +1,5 @@
+using NetScad.Axis.Scad.Models;
+using NetScad.Axis.Scad.Utility;
 using NetScad.Axis.SCAD.Modules;
 using NetScad.Core.Measurements;
 using NetScad.Core.Utility;
@@ -5,15 +7,13 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using static NetScad.Axis.SCAD.Utility.AxisConfig;
 using static NetScad.Core.Measurements.Conversion;
 using static NetScad.Core.Measurements.Selector;
-using NetScad.Axis.Scad.Models;
-using NetScad.Axis.Scad.Utility;
-using System.IO;
 
 namespace NetScad.UI.ViewModels
 {
@@ -46,7 +46,7 @@ namespace NetScad.UI.ViewModels
         private string _inputMinZ;
         private string _inputMaxZ;
         private ObservableCollection<GeneratedModule> _axesList;
-
+       
         public CreateAxesViewModel()
         {
             UnitSystemValues = Enum.GetValues(typeof(UnitSystem)).Cast<UnitSystem>().ToList();
