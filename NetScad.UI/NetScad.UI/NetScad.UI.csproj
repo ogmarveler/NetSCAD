@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\NetScad.Axis\NetScad.Axis.csproj" />
     <ProjectReference Include="..\..\NetScad.Core\NetScad.Core.csproj" />
   </ItemGroup>

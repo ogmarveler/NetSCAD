@@ -75,11 +75,11 @@ namespace NetScad.UI.ViewModels
             _decimalPlaces = 12; // Rounding for conversions
             _callingMethodLength = 0; // For selectable text for module to be called in SCAD file
             _inputMinX = "Enter X <= 0"; // Watermarks for X coordinates
-            _inputMaxX = "Enter X >= Min";
+            _inputMaxX = "Enter X > Min";
             _inputMinY = "Enter Y <= 0"; // Watermarks for Y coordinates
-            _inputMaxY = "Enter Y >= Min";
+            _inputMaxY = "Enter Y > Min";
             _inputMinZ = "Enter Z <= 0"; // Watermarks for Z coordinates
-            _inputMaxZ = "Enter Z >= Min";
+            _inputMaxZ = "Enter Z > Min";
             GetAxesList();  // Get existing list of axes generated
 
             //this.WhenAnyValue( // Observe changes to the group of input variables

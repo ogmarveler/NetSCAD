@@ -1,8 +1,13 @@
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using NetScad.Core.Utility;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+
 
 namespace NetScad.UI.ViewModels
 {
@@ -11,12 +16,15 @@ namespace NetScad.UI.ViewModels
         [ObservableProperty]
         private string _selectedFolderPath;
 
+        [ObservableProperty]
+        private string? _folderPath;
         private readonly Window _parentWindow;
 
         public FolderPickerViewModel(Window parentWindow)
         {
             _parentWindow = parentWindow;
-            SelectedFolderPath = string.Empty;
+            SelectedFolderPath = Path.Combine(PathHelper.GetProjectRoot(),"Scad");
+            _folderPath = Path.Combine(PathHelper.GetProjectRoot(), "Scad");
         }
 
         [RelayCommand]
@@ -34,6 +42,52 @@ namespace NetScad.UI.ViewModels
             {
                 SelectedFolderPath = path;
             }
+        }
+
+        [RelayCommand]
+        public Task OpenFolderAsync()
+        {
+            if (string.IsNullOrEmpty(_folderPath))
+            {
+                return Task.CompletedTask;
+            }
+
+            try
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "explorer.exe",
+                        Arguments = $"\"{_folderPath}\"",
+                        UseShellExecute = true
+                    });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "open",
+                        Arguments = $"\"{_folderPath}\"",
+                        UseShellExecute = true
+                    });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "xdg-open",
+                        Arguments = $"\"{_folderPath}\"",
+                        UseShellExecute = true
+                    });
+                }
+            }
+            catch
+            {
+                // Handle exceptions silently to avoid UI disruption
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

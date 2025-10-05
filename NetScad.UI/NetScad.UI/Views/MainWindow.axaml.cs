@@ -22,6 +22,18 @@ namespace NetScad.UI.Views
             DataContext = new MainWindowViewModel(new CreateAxesView());
         }
 
+        private async void _OpenFolderPickerAsync(object? sender, RoutedEventArgs e)
+        {
+            var folderPickerDataContext = new FolderPickerViewModel(this);
+            await folderPickerDataContext.OpenFolderPickerAsync();
+        }
+
+        private async void _OpenFolderAsync(object? sender, RoutedEventArgs e)
+        {
+            var folderPickerDataContext = new FolderPickerViewModel(this);
+            await folderPickerDataContext.OpenFolderAsync();
+        }
+
         public void ToggleTheme(object sender, RoutedEventArgs e)
         {
             Application.Current.RequestedThemeVariant =
