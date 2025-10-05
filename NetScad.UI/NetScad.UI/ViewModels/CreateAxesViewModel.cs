@@ -81,27 +81,6 @@ namespace NetScad.UI.ViewModels
             _inputMinZ = "Enter Z <= 0"; // Watermarks for Z coordinates
             _inputMaxZ = "Enter Z > Min";
             GetAxesList();  // Get existing list of axes generated
-
-            //this.WhenAnyValue( // Observe changes to the group of input variables
-            //    vm => vm.SelectedUnitValue,
-            //    vm => vm._minX,
-            //    vm => vm._maxX,
-            //    vm => vm._minY,
-            //    vm => vm._maxY,
-            //    vm => vm._minZ,
-            //    vm => vm._maxZ
-            //)
-            //.Skip(1) // Skip initial values to avoid clearing on ViewModel creation
-            //.Subscribe(_ =>
-            //{
-            //    Dispatcher.UIThread.Post(() =>
-            //    { // When changes made to any inputs after generating axis, clear out details
-            //        ModuleName = string.Empty;
-            //        CallingMethod = string.Empty;
-            //        IncludeFile = string.Empty;
-            //        AxisDetailsShown = false;
-            //    });
-            //});
         }
         public double MinXValue { get => _minX; set => this.RaiseAndSetIfChanged(ref _minX, value); }
         public double MaxXValue { get => _maxX; set => this.RaiseAndSetIfChanged(ref _maxX, value); }
@@ -219,6 +198,8 @@ namespace NetScad.UI.ViewModels
 
         public Task ClearInputs()
         {
+            SelectedUnitValue = UnitSystem.Metric; // Defaults for enums
+            SelectedBackgroundValue = BackgroundType.Light;
             AxisDetailsShown = false; // Post-gen of axis details - static resources disabled in XAML
             TotalCubicVolume = 0;
             TotalCubicVolumeScale = 0;
@@ -231,8 +212,6 @@ namespace NetScad.UI.ViewModels
             MaxYValue = 300;
             MinZValue = 0;
             MaxZValue = 300;
-            SelectedUnitValue = UnitSystem.Metric; // Defaults for enums
-            SelectedBackgroundValue = BackgroundType.Light;
             return Task.CompletedTask;
         }
 
@@ -244,7 +223,6 @@ namespace NetScad.UI.ViewModels
             AxesList = parser.AxesModulesList(filePath);
             return Task.CompletedTask;
         }
-
 
         // ViewModel helper functions for conversions - stateful
         private Task ConvertInputsImperial(int decimalPlaces)

@@ -20,6 +20,8 @@
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageVersion Include="HotAvalonia" Version="3.0.0" />
     <PackageVersion Include="HotAvalonia.Extensions" Version="3.0.0" />
+    <PackageVersion Include="Markdown.Avalonia" Version="11.0.2" />
+    <PackageVersion Include="Markdown.Avalonia.Tight" Version="11.0.2" />
     <PackageVersion Include="Microsoft.NET.ILLink.Tasks" Version="9.0.9" />
     <PackageVersion Include="Prism.Core" Version="9.0.537" />
     <PackageVersion Include="ReactiveUI.Fody" Version="19.5.41" />

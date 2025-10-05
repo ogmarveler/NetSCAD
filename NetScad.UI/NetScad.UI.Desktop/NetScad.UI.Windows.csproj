@@ -6,6 +6,10 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+	  <PublishSingleFile>true</PublishSingleFile>
+	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+	  <PublishTrimmed>true</PublishTrimmed>
+	  <TrimMode>copyused</TrimMode>
   </PropertyGroup>
 
   <PropertyGroup>

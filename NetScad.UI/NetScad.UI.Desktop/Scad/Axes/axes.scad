@@ -103,3 +103,11 @@ module Get_Light_480x480x480_MM_Orig_N160xN160xN160(colorVal = "Black", alpha = 
   light_480x480x480_mm_orig_n160xn160xn160(colorVal = colorVal, alpha = alpha);
 }
 
+// 3D Axis Module - Dark 10x10x10 Inch Orig N4xN4xN4
+// Calling Method: Get_Get_Dark_10x10x10_Inch_Orig_N4xN4xN4();
+// Settings: UnitSystem=Imperial, BackgroundType=Dark, MinX=-101.6, MaxX=152.4, MinY=-101.6, MaxY=152.4, MinZ=-101.6, MaxZ=152.4
+include <dark_10x10x10_inch_orig_n4xn4xn4.scad>;
+module Get_Dark_10x10x10_Inch_Orig_N4xN4xN4(colorVal = "White", alpha = 1) {
+  dark_10x10x10_inch_orig_n4xn4xn4(colorVal = colorVal, alpha = alpha);
+}
+

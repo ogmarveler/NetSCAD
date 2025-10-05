@@ -31,94 +31,73 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <!--  Main content  -->
-    <Grid
-        Margin="10"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch">
-        <Grid.ColumnDefinitions>
-            <!--  Side Drawer  -->
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <!--  Main content  -->
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
-        </Grid.RowDefinitions>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Axes">
+                <MenuItem Command="{Binding NewCommand}" Header="_Create New Axes">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource arrow_expand_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding OpenCommand}" Header="_Output Folder">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource folder_open_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+            </MenuItem>
+            <MenuItem Header="_Appearance">
+                <MenuItem Command="{Binding ToggleCommand}" Header="_Switch Theme">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource dark_theme_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Command="{Binding AboutCommand}" Header="_About">
+                    <MenuItem.Icon>
+                        <PathIcon Data="{StaticResource book_question_mark_regular}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
 
-        <StackPanel
-            Margin="0,10,10,10"
-            Classes="card"
-            Spacing="10">
-            <!--  First ContentControl  -->
-            <ContentControl
-                Grid.Row="0"
-                Grid.Column="0"
-                Button.Click="GetCreateAxesView"
-                Content="{StaticResource CreateAxes}" />
 
-            <Separator Margin="0" Visual.FlowDirection="LeftToRight" />
-
-            <!--  Second ContentControl  -->
-            <Separator
-                Margin="0"
-                IsVisible="False"
-                Visual.FlowDirection="LeftToRight" />
-
-            <!--  Third ContentControl  -->
-            <ContentControl
-                Grid.Row="0"
-                Grid.Column="0"
-                Button.Click="_OpenFolderAsync"
-                Content="{StaticResource AxesFolder}"
-                IsVisible="True" />
-
-            <Separator
-                Margin="0"
-                IsVisible="False"
-                Visual.FlowDirection="LeftToRight" />
-
-            <!--  Fourth ContentControl  -->
-            <ContentControl
-                Grid.Row="0"
-                Grid.Column="0"
-                Content="{StaticResource ObjectDetail}"
-                IsVisible="False" />
-
-            <Separator
-                Margin="0"
-                IsVisible="False"
-                Visual.FlowDirection="LeftToRight" />
-        </StackPanel>
-
-        <!--  Toggle Dark/Light Mode  -->
-        <ContentControl
-            Grid.Row="2"
-            Grid.Column="0"
-            Button.Click="ToggleTheme"
-            Content="{StaticResource ButtonCard2}" />
-
-        <!--  Main View - SPA  -->
-        <Border
-            Grid.RowSpan="3"
-            Grid.Column="1"
+        <!--  Main content  -->
+        <Grid
             Margin="10"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            BorderThickness="2"
-            BoxShadow="1 1 2 0 Gray"
-            Classes="card_main">
-            <StackPanel Classes="card">
-                <ContentControl
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
-                    Content="{Binding MainViewContent}" />
-            </StackPanel>
-        </Border>
-    </Grid>
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <!--  Side Drawer  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  Main content  -->
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Main View - SPA  -->
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                BorderThickness="2"
+                BoxShadow="1 1 2 0 Gray"
+                Classes="card_main">
+                <StackPanel Classes="card">
+                    <ContentControl
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Content="{Binding MainViewContent}" />
+                </StackPanel>
+            </Border>
+
+        </Grid>
+    </DockPanel>
 
 </Window>

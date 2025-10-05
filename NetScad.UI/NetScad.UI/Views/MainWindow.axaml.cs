@@ -1,8 +1,7 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Styling;
 using NetScad.UI.ViewModels;
+using System.Threading.Tasks;
 
 namespace NetScad.UI.Views
 {
@@ -17,29 +16,16 @@ namespace NetScad.UI.Views
             DataContext = _mainViewModel;
         }
 
-        public void GetCreateAxesView(object sender, RoutedEventArgs e)
-        {
-            DataContext = new MainWindowViewModel(new CreateAxesView());
-        }
-
-        private async void _OpenFolderPickerAsync(object? sender, RoutedEventArgs e)
+        private async void OpenFolderPickerAsync(object? sender, RoutedEventArgs e)
         {
             var folderPickerDataContext = new FolderPickerViewModel(this);
             await folderPickerDataContext.OpenFolderPickerAsync();
         }
 
-        private async void _OpenFolderAsync(object? sender, RoutedEventArgs e)
+        public async Task OpenFolderAsync()
         {
             var folderPickerDataContext = new FolderPickerViewModel(this);
             await folderPickerDataContext.OpenFolderAsync();
-        }
-
-        public void ToggleTheme(object sender, RoutedEventArgs e)
-        {
-            Application.Current.RequestedThemeVariant =
-                Application.Current.ActualThemeVariant == ThemeVariant.Light
-                    ? ThemeVariant.Dark
-                    : ThemeVariant.Light;
         }
     }
 }

@@ -4,6 +4,10 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	  <PublishSingleFile>true</PublishSingleFile>
+	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+	  <PublishTrimmed>true</PublishTrimmed>
+	  <TrimMode>copyused</TrimMode>
   </PropertyGroup>
   
   <ItemGroup>
@@ -16,7 +20,7 @@
     <AvaloniaXaml Remove="Assets\Icons\IconResources.axaml" />
     <AvaloniaXaml Remove="Assets\Icons\ResourceDictionary.axaml" />
   </ItemGroup>
-
+  
   <ItemGroup>  
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
@@ -35,7 +39,11 @@
 	  
   </ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="..\..\NetScad.Axis\README.markdown" />
+	</ItemGroup>
+	
+	<ItemGroup>
     <ProjectReference Include="..\..\NetScad.Axis\NetScad.Axis.csproj" />
     <ProjectReference Include="..\..\NetScad.Core\NetScad.Core.csproj" />
   </ItemGroup>
