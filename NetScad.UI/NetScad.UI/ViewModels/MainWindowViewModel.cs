@@ -19,6 +19,5 @@ namespace NetScad.UI.ViewModels
         }
 
         public void LoadCreateAxesView() => _mainViewContent = new CreateAxesView();
-        public void LoadAxesListView() => _mainViewContent = new AxesListView();
     }
 }

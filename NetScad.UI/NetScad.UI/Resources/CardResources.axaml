@@ -161,8 +161,8 @@
             Classes="card2">
             <StackPanel>
                 <PathIcon
-                    Width="30"
-                    Height="30"
+                    Width="25"
+                    Height="25"
                     Margin="0,0,0,5"
                     Padding="0"
                     HorizontalAlignment="Center"

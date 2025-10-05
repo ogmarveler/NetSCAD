@@ -5,6 +5,7 @@ using NetScad.Core.Utility;
 using static NetScad.Core.Measurements.FractionalInch;
 using static NetScad.Axis.SCAD.Utility.AxisConfig;
 using static NetScad.Core.Measurements.Selector;
+using NetScad.Axis.Scad.Utility;
 
 // Apply custom axis settings - will save to a SCAD file as a module
 // For Metric, Axis will set measurements to 20mm, 10mm, 5mm, 1mm increments.

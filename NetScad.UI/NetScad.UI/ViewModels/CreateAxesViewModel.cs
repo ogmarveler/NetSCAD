@@ -3,21 +3,21 @@ using NetScad.Core.Measurements;
 using NetScad.Core.Utility;
 using ReactiveUI;
 using System;
-using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using static NetScad.Axis.SCAD.Utility.AxisConfig;
 using static NetScad.Core.Measurements.Conversion;
 using static NetScad.Core.Measurements.Selector;
+using NetScad.Axis.Scad.Models;
+using NetScad.Axis.Scad.Utility;
+using System.IO;
 
 namespace NetScad.UI.ViewModels
 {
-    public class CreateAxesViewModel : ReactiveObject, INotifyDataErrorInfo
+    public class CreateAxesViewModel : ReactiveObject
     {
         private UnitSystem _selectedUnit;         // Pass these back to backend functions
         private BackgroundType _selectedBackground;
@@ -39,8 +39,13 @@ namespace NetScad.UI.ViewModels
         private double _totalCubicVolumeScale;
         public int _decimalPlaces;
         public int _callingMethodLength;
-        private string _inputText;
-        private readonly ConcurrentDictionary<string, List<string>> _errors = new();
+        private string _inputMinX;
+        private string _inputMaxX;
+        private string _inputMinY;
+        private string _inputMaxY;
+        private string _inputMinZ;
+        private string _inputMaxZ;
+        private ObservableCollection<GeneratedModule> _axesList;
 
         public CreateAxesViewModel()
         {
@@ -69,6 +74,13 @@ namespace NetScad.UI.ViewModels
             TotalCubicVolumeScale = 0;
             _decimalPlaces = 12; // Rounding for conversions
             _callingMethodLength = 0; // For selectable text for module to be called in SCAD file
+            _inputMinX = "Enter X <= 0"; // Watermarks for X coordinates
+            _inputMaxX = "Enter X >= Min";
+            _inputMinY = "Enter Y <= 0"; // Watermarks for Y coordinates
+            _inputMaxY = "Enter Y >= Min";
+            _inputMinZ = "Enter Z <= 0"; // Watermarks for Z coordinates
+            _inputMaxZ = "Enter Z >= Min";
+            GetAxesList();  // Get existing list of axes generated
 
             //this.WhenAnyValue( // Observe changes to the group of input variables
             //    vm => vm.SelectedUnitValue,
@@ -97,6 +109,12 @@ namespace NetScad.UI.ViewModels
         public double MaxYValue { get => _maxY; set => this.RaiseAndSetIfChanged(ref _maxY, value); }
         public double MinZValue { get => _minZ; set => this.RaiseAndSetIfChanged(ref _minZ, value); }
         public double MaxZValue { get => _maxZ; set => this.RaiseAndSetIfChanged(ref _maxZ, value); }
+        public string MinXWatermark { get => _inputMinX; set => this.RaiseAndSetIfChanged(ref _inputMinX, value); }
+        public string MaxXWatermark { get => _inputMaxX; set => this.RaiseAndSetIfChanged(ref _inputMaxX, value); }
+        public string MinYWatermark { get => _inputMinY; set => this.RaiseAndSetIfChanged(ref _inputMinY, value); }
+        public string MaxYWatermark { get => _inputMaxY; set => this.RaiseAndSetIfChanged(ref _inputMaxY, value); }
+        public string MinZWatermark { get => _inputMinZ; set => this.RaiseAndSetIfChanged(ref _inputMinZ, value); }
+        public string MaxZWatermark { get => _inputMaxZ; set => this.RaiseAndSetIfChanged(ref _inputMaxZ, value); }
         public List<UnitSystem> UnitSystemValues { get; set; }
         public UnitSystem SelectedUnitValue
         {
@@ -120,6 +138,7 @@ namespace NetScad.UI.ViewModels
         public double TotalCubicVolume { get => _totalCubicVolume; set => this.RaiseAndSetIfChanged(ref _totalCubicVolume, value); }
         public double TotalCubicVolumeScale { get => _totalCubicVolumeScale; set => this.RaiseAndSetIfChanged(ref _totalCubicVolumeScale, value); }
         public int CallingMethodLength { get => _callingMethodLength; set => this.RaiseAndSetIfChanged(ref _callingMethodLength, value); }
+        public ObservableCollection<GeneratedModule> AxesList { get => _axesList; set => this.RaiseAndSetIfChanged(ref _axesList, value); }
 
         public Task ConvertInputs(int decimalPlaces) // Convert from unit system to another
         {
@@ -138,7 +157,7 @@ namespace NetScad.UI.ViewModels
                 !double.IsNaN(_minZ) && !double.IsNaN(_maxZ))
             {
                 if (_selectedUnit == UnitSystem.Imperial && !UnitHasChanged)
-                {                 
+                {
                     // Convert if inputs are inches but function is mm
                     _minX = Math.Round(InchesToMillimeter(_minX), _decimalPlaces);
                     _maxX = Math.Round(InchesToMillimeter(_maxX), _decimalPlaces);
@@ -162,15 +181,15 @@ namespace NetScad.UI.ViewModels
 
                 /**** SetAxis Generation function ****/
                 _customAxis = new CustomAxis();             //Clear out previous custom axis data
-                _customAxis = await GUI.SetAxis(axisSettings); 
+                _customAxis = await GUI.SetAxis(axisSettings);
 
                 // Convert values back to inches since backend function uses mm
                 if (_selectedUnit == UnitSystem.Imperial && UnitHasChanged)  // Update frontend with adjusted imperial values
-                { 
-                    ConvertInputsImperial((int)(_decimalPlaces / 1.5));
+                {
+                    await ConvertInputsImperial((int)(_decimalPlaces / 1.5));
                 }
                 else   // Update frontend with adjusted metric values, no conversion needed
-                { 
+                {
                     MinXValue = Math.Round(_customAxis.Settings.MinX, (int)(_decimalPlaces / 1.5));
                     MaxXValue = Math.Round(_customAxis.Settings.MaxX, (int)(_decimalPlaces / 1.5));
                     MinYValue = Math.Round(_customAxis.Settings.MinY, (int)(_decimalPlaces / 1.5));
@@ -189,6 +208,12 @@ namespace NetScad.UI.ViewModels
                 CallingMethodLength = _customAxis.CallingMethod.Length - 1; // For copy and paste into main file
                 IncludeFile = $"include <{_customAxis.CallingMethod.ToLower().Replace("();", "")}.scad>";
                 AxisDetailsShown = true;
+                await GetAxesList();  // Get updated AxesList
+            }
+            else
+            {
+                CallingMethod = "Please enter only numeric coordinates";
+                AxisDetailsShown = true;
             }
         }
 
@@ -201,15 +226,25 @@ namespace NetScad.UI.ViewModels
             CallingMethod = string.Empty;
             IncludeFile = string.Empty;
             MinXValue = 0;  // Set to 0 for coordinates
-            MaxXValue = 0;
+            MaxXValue = 300;
             MinYValue = 0;
-            MaxYValue = 0;
+            MaxYValue = 300;
             MinZValue = 0;
-            MaxZValue = 0;
+            MaxZValue = 300;
             SelectedUnitValue = UnitSystem.Metric; // Defaults for enums
             SelectedBackgroundValue = BackgroundType.Light;
             return Task.CompletedTask;
         }
+
+        /**** Axes List DataGrid ****/
+        private Task GetAxesList()
+        {
+            var parser = new ScadParser();
+            var filePath = Path.Combine(PathHelper.GetProjectRoot(), "Scad", "Axes", "axes.scad");
+            AxesList = parser.AxesModulesList(filePath);
+            return Task.CompletedTask;
+        }
+
 
         // ViewModel helper functions for conversions - stateful
         private Task ConvertInputsImperial(int decimalPlaces)
@@ -240,57 +275,6 @@ namespace NetScad.UI.ViewModels
             TotalCubicVolumeScale = Math.Round(VolumeConverter.ConvertFt3ToM3(_totalCubicVolumeScale), decimalPlaces);  // feet to m
             UnitHasChanged = false;
             return Task.CompletedTask;
-        }
-
-        public string InputText
-        {
-            get => _inputText;
-            set
-            {
-                _inputText = value;
-                OnPropertyChanged();
-                ValidateInputText(value);
-            }
-        }
-
-        private void ValidateInputText(string value)
-        {
-            var errors = new List<string>();
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                errors.Add("Input cannot be empty.");
-            }
-            else if (value.Length < 3)
-            {
-                errors.Add("Input must be at least 3 characters long.");
-            }
-
-            if (errors.Count > 0)
-            {
-                _errors["InputText"] = errors;
-            }
-            else
-            {
-                _errors.TryRemove("InputText", out _);
-            }
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(nameof(InputText)));
-        }
-
-        public bool HasErrors => _errors.Count > 0;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            if (string.IsNullOrEmpty(propertyName) || !_errors.ContainsKey(propertyName))
-                return null;
-            return _errors[propertyName];
-        }
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

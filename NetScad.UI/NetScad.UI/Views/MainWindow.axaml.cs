@@ -22,11 +22,6 @@ namespace NetScad.UI.Views
             DataContext = new MainWindowViewModel(new CreateAxesView());
         }
 
-        public void GetAxesListView(object sender, RoutedEventArgs e)
-        {
-            DataContext = new MainWindowViewModel(new AxesListView());
-        }
-
         public void ToggleTheme(object sender, RoutedEventArgs e)
         {
             Application.Current.RequestedThemeVariant =

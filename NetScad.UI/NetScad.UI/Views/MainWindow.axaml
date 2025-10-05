@@ -30,6 +30,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
+    <!--  Main content  -->
     <Grid
         Margin="10"
         HorizontalAlignment="Stretch"
@@ -60,13 +61,6 @@
             <Separator Margin="0" Visual.FlowDirection="LeftToRight" />
 
             <!--  Second ContentControl  -->
-            <ContentControl
-                Grid.Row="0"
-                Grid.Column="0"
-                Button.Click="GetAxesListView"
-                Content="{StaticResource AxesList}"
-                IsVisible="False" />
-
             <Separator
                 Margin="0"
                 IsVisible="False"

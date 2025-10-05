@@ -17,8 +17,8 @@ namespace NetScad.Core.Measurements
         public static double InchesToCentimeter(double inches) => MillimeterToCentimeter(InchesToMillimeter(inches));
         public static double InchesToMeter(double inches) => CentimeterToMeter(InchesToCentimeter(inches));
         public static double FeetToMeter(double feet) => InchesToMeter(FeetToInches(feet));
-        public static double InchesToFeet(double inches) => inches * 12;  // Base level function
-        public static double FeetToInches(double feet) => feet / 12;  // Base level function
+        public static double InchesToFeet(double inches) => inches / 12;  // Base level function
+        public static double FeetToInches(double feet) => feet * 12;  // Base level function
         public static double MillimeterToFeet(double mm) => InchesToFeet(MillimeterToInches(mm));
         public static double MeterToFeet(double m) => MillimeterToFeet(MeterToMillimeter(m));
         public static double RoundEdgeHeight(double radius) => radius / 50; // Convert a radius in mm to a ratio for rounding edges in OpenSCAD

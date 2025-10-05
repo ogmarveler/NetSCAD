@@ -29,6 +29,7 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Avalonia.ReactiveUI" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
     <!-- Hot reload packages (conditional on the directive below) -->
 	  
   </ItemGroup>

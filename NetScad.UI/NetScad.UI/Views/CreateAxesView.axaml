@@ -5,7 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:NetScad.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:NetScad.Axis.Scad.Models"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:t="clr-namespace:Avalonia.Controls.Templates"
     xmlns:views="using:NetScad.UI.Views"
     xmlns:vm="using:NetScad.UI.ViewModels"
     d:DesignHeight="720"
@@ -43,16 +45,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!--  Unit Selection Combo Box  -->
 
         <Separator
             Grid.Row="1"
+            Grid.Column="3"
             Grid.ColumnSpan="4"
             Margin="20"
             VerticalAlignment="Stretch"
+            Background="Transparent"
             Opacity="0.5"
             Visual.FlowDirection="LeftToRight" />
 
@@ -68,7 +72,7 @@
             FontSize="15"
             FontWeight="SemiBold"
             Opacity="0.75"
-            Text="Custom Axes Generator" />
+            Text="Custom Axes Builder" />
 
         <!--  Unit Selection Combo Box  -->
         <TextBlock
@@ -158,11 +162,19 @@
             Text="Minimum X" />
 
         <TextBox
+            x:Name="MinXValueTextBox"
             Grid.Row="4"
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MinXValue}" />
+            Text="{Binding MinXValue}"
+            Watermark="{Binding MinXWatermark}">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding MinXWatermark}" />
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBox>
 
         <TextBlock
             Grid.Row="4"
@@ -191,7 +203,14 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MaxXValue}" />
+            Text="{Binding MaxXValue}"
+            Watermark="{Binding MaxXWatermark}">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding MaxXWatermark}" />
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBox>
 
         <TextBlock
             Grid.Row="5"
@@ -220,7 +239,14 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MinYValue}" />
+            Text="{Binding MinYValue}"
+            Watermark="{Binding MinYWatermark}">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding MinYWatermark}" />
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBox>
 
         <TextBlock
             Grid.Row="6"
@@ -248,7 +274,14 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MaxYValue}" />
+            Text="{Binding MaxYValue}"
+            Watermark="{Binding MaxYWatermark}">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding MaxYWatermark}" />
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBox>
 
         <TextBlock
             Grid.Row="7"
@@ -277,7 +310,14 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MinZValue}" />
+            Text="{Binding MinZValue}"
+            Watermark="{Binding MinZWatermark}">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding MinZWatermark}" />
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBox>
 
         <TextBlock
             Grid.Row="8"
@@ -305,7 +345,14 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MaxZValue}" />
+            Text="{Binding MaxZValue}"
+            Watermark="{Binding MaxZWatermark}">
+            <ToolTip.Tip>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding MaxZWatermark}" />
+                </StackPanel>
+            </ToolTip.Tip>
+        </TextBox>
 
         <TextBlock
             Grid.Row="9"
@@ -393,10 +440,11 @@
 
         <Separator
             Grid.Row="12"
-            Grid.ColumnSpan="4"
+            Grid.ColumnSpan="3"
             Margin="20"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
+            Background="Transparent"
             Opacity="0.5"
             Visual.FlowDirection="LeftToRight" />
 
@@ -513,8 +561,50 @@
             SelectionBrush="Yellow"
             Text="{Binding CallingMethod}" />
 
-
         <!--  Embed Axes List View  -->
 
+        <Separator
+            Grid.Row="1"
+            Grid.Column="3"
+            Grid.ColumnSpan="3"
+            Margin="20"
+            VerticalAlignment="Stretch"
+            Background="Transparent"
+            Opacity="0.75"
+            Visual.FlowDirection="LeftToRight" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="3"
+            Grid.ColumnSpan="3"
+            Margin="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Stretch"
+            Background="{DynamicResource CardBackground}"
+            Classes="textbox"
+            FontSize="15"
+            FontWeight="SemiBold"
+            Opacity="0.75"
+            Text="Generated Axes" />
+
+        <DataGrid
+            Grid.Row="2"
+            Grid.RowSpan="14"
+            Grid.Column="3"
+            Margin="7,7,20,25"
+            Padding="5"
+            HorizontalAlignment="Stretch"
+            AutoGenerateColumns="True"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            CanUserReorderColumns="True"
+            CanUserResizeColumns="True"
+            ClipboardCopyMode="ExcludeHeader"
+            ColumnWidth="Auto"
+            CornerRadius="8"
+            GridLinesVisibility="All"
+            IsReadOnly="True"
+            ItemsSource="{Binding AxesList}"
+            SelectionMode="Extended" />
     </Grid>
 </UserControl>

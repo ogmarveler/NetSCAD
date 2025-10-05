@@ -1,15 +1,13 @@
 using Avalonia.Controls;
-using NetScad.UI.ViewModels;
-using static NetScad.Core.Measurements.Selector;
 using Avalonia.Interactivity;
-using Avalonia;
-using System.Threading.Tasks;
+using NetScad.UI.ViewModels;
+using System.ComponentModel;
 
 namespace NetScad.UI.Views;
 
-public partial class CreateAxesView : UserControl
+public partial class CreateAxesView : UserControl, INotifyPropertyChanged
 {
-    public CreateAxesView()
+   public CreateAxesView()
     {
         InitializeComponent();
         DataContext = new CreateAxesViewModel();

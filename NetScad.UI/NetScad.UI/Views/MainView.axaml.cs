@@ -10,7 +10,7 @@ public partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
-        DataContext = new MainViewModel();
+        DataContext = new CreateAxesViewModel();
     }
 
     private async void OpenFolderButton_Clicked(object sender, RoutedEventArgs args)
