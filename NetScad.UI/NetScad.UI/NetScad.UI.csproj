@@ -30,6 +30,7 @@
     </PackageReference>
     <PackageReference Include="Avalonia.ReactiveUI" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
     <!-- Hot reload packages (conditional on the directive below) -->
 	  
   </ItemGroup>
