@@ -17,7 +17,7 @@ using static NetScad.Core.Measurements.Selector;
 
 namespace NetScad.UI.ViewModels
 {
-    public class CreateAxesViewModel : ReactiveObject
+    public class CreateAxesViewModel : ValidatableBase
     {
         private UnitSystem _selectedUnit;         // Pass these back to backend functions
         private BackgroundType _selectedBackground;
@@ -46,20 +46,22 @@ namespace NetScad.UI.ViewModels
         private string _inputMinZ;
         private string _inputMaxZ;
         private ObservableCollection<GeneratedModule> _axesList;
-       
+        private bool _createButtonEnabled;
+
         public CreateAxesViewModel()
         {
             UnitSystemValues = Enum.GetValues(typeof(UnitSystem)).Cast<UnitSystem>().ToList();
             BackgroundTypeValues = Enum.GetValues(typeof(BackgroundType)).Cast<BackgroundType>().ToList();
             SelectedBackgroundValue = BackgroundType.Light;
             SelectedUnitValue = UnitSystem.Metric;
-            MinXValue = 0;
             MaxXValue = SelectedUnitValue == UnitSystem.Metric ? 300 : 12; // Set based on defaults
-            MinYValue = 0;
             MaxYValue = SelectedUnitValue == UnitSystem.Metric ? 300 : 12;
-            MinZValue = 0;
             MaxZValue = SelectedUnitValue == UnitSystem.Metric ? 300 : 12;
+            MinXValue = 0;
+            MinYValue = 0;
+            MinZValue = 0;
             _unitHasChanged = false;
+            _createButtonEnabled = true;
             UnitHasChanged = false;
             _isImperial = SelectedUnitValue == UnitSystem.Metric ? false : true; // Set based on SelectedUnit
             _isMetric = SelectedUnitValue == UnitSystem.Metric ? true : false;
@@ -74,20 +76,62 @@ namespace NetScad.UI.ViewModels
             TotalCubicVolumeScale = 0;
             _decimalPlaces = 12; // Rounding for conversions
             _callingMethodLength = 0; // For selectable text for module to be called in SCAD file
-            _inputMinX = "Enter X <= 0"; // Watermarks for X coordinates
-            _inputMaxX = "Enter X > Min";
-            _inputMinY = "Enter Y <= 0"; // Watermarks for Y coordinates
-            _inputMaxY = "Enter Y > Min";
-            _inputMinZ = "Enter Z <= 0"; // Watermarks for Z coordinates
-            _inputMaxZ = "Enter Z > Min";
+            _inputMinX = "Min X <= 0"; // Watermarks for X coordinates
+            _inputMaxX = "Max X > Min X";
+            _inputMinY = "Min Y <= 0"; // Watermarks for Y coordinates
+            _inputMaxY = "Max Y > Min Y";
+            _inputMinZ = "Min Z <= 0"; // Watermarks for Z coordinates
+            _inputMaxZ = "Max Z > Min Z";
             GetAxesList();  // Get existing list of axes generated
         }
-        public double MinXValue { get => _minX; set => this.RaiseAndSetIfChanged(ref _minX, value); }
-        public double MaxXValue { get => _maxX; set => this.RaiseAndSetIfChanged(ref _maxX, value); }
-        public double MinYValue { get => _minY; set => this.RaiseAndSetIfChanged(ref _minY, value); }
-        public double MaxYValue { get => _maxY; set => this.RaiseAndSetIfChanged(ref _maxY, value); }
-        public double MinZValue { get => _minZ; set => this.RaiseAndSetIfChanged(ref _minZ, value); }
-        public double MaxZValue { get => _maxZ; set => this.RaiseAndSetIfChanged(ref _maxZ, value); }
+        public double MinXValue
+        {
+            get => _minX; set
+            {
+                this.RaiseAndSetIfChanged(ref _minX, value);
+                ValidateMinMax();
+            }
+        }
+        public double MaxXValue
+        {
+            get => _maxX; set
+            {
+                this.RaiseAndSetIfChanged(ref _maxX, value);
+                ValidateMinMax();
+            }
+        }
+        public double MinYValue
+        {
+            get => _minY; set
+            {
+                this.RaiseAndSetIfChanged(ref _minY, value);
+                ValidateMinMax();
+            }
+        }
+        public double MaxYValue
+        {
+            get => _maxY; set
+            {
+                this.RaiseAndSetIfChanged(ref _maxY, value);
+                ValidateMinMax();
+            }
+        }
+        public double MinZValue
+        {
+            get => _minZ; set
+            {
+                this.RaiseAndSetIfChanged(ref _minZ, value);
+                ValidateMinMax();
+            }
+        }
+        public double MaxZValue
+        {
+            get => _maxZ; set
+            {
+                this.RaiseAndSetIfChanged(ref _maxZ, value);
+                ValidateMinMax();
+            }
+        }
         public string MinXWatermark { get => _inputMinX; set => this.RaiseAndSetIfChanged(ref _inputMinX, value); }
         public string MaxXWatermark { get => _inputMaxX; set => this.RaiseAndSetIfChanged(ref _inputMaxX, value); }
         public string MinYWatermark { get => _inputMinY; set => this.RaiseAndSetIfChanged(ref _inputMinY, value); }
@@ -118,6 +162,7 @@ namespace NetScad.UI.ViewModels
         public double TotalCubicVolumeScale { get => _totalCubicVolumeScale; set => this.RaiseAndSetIfChanged(ref _totalCubicVolumeScale, value); }
         public int CallingMethodLength { get => _callingMethodLength; set => this.RaiseAndSetIfChanged(ref _callingMethodLength, value); }
         public ObservableCollection<GeneratedModule> AxesList { get => _axesList; set => this.RaiseAndSetIfChanged(ref _axesList, value); }
+        public bool CreateButtonEnabled { get => _createButtonEnabled; set => this.RaiseAndSetIfChanged(ref _createButtonEnabled, value); }
 
         public Task ConvertInputs(int decimalPlaces) // Convert from unit system to another
         {
@@ -198,6 +243,12 @@ namespace NetScad.UI.ViewModels
 
         public Task ClearInputs()
         {
+            ClearErrors(nameof(MaxXValue));
+            ClearErrors(nameof(MaxYValue));
+            ClearErrors(nameof(MaxZValue));
+            ClearErrors(nameof(MinXValue));
+            ClearErrors(nameof(MinYValue));
+            ClearErrors(nameof(MinZValue));
             SelectedUnitValue = UnitSystem.Metric; // Defaults for enums
             SelectedBackgroundValue = BackgroundType.Light;
             AxisDetailsShown = false; // Post-gen of axis details - static resources disabled in XAML
@@ -206,12 +257,13 @@ namespace NetScad.UI.ViewModels
             ModuleName = string.Empty;
             CallingMethod = string.Empty;
             IncludeFile = string.Empty;
-            MinXValue = 0;  // Set to 0 for coordinates
             MaxXValue = 300;
-            MinYValue = 0;
             MaxYValue = 300;
-            MinZValue = 0;
             MaxZValue = 300;
+            MinXValue = 0;  // Set to 0 for coordinates
+            MinYValue = 0;
+            MinZValue = 0;
+
             return Task.CompletedTask;
         }
 
@@ -226,7 +278,7 @@ namespace NetScad.UI.ViewModels
 
         // ViewModel helper functions for conversions - stateful
         private Task ConvertInputsImperial(int decimalPlaces)
-        {   
+        {
             // Convert from metric unit system to imperial
             MinXValue = Math.Round(MillimeterToInches(_minX), decimalPlaces);  // mm to inches
             MaxXValue = Math.Round(MillimeterToInches(_maxX), decimalPlaces);
@@ -241,7 +293,7 @@ namespace NetScad.UI.ViewModels
         }
 
         private Task ConvertInputsMetric(int decimalPlaces)
-        {   
+        {
             // Convert from imperial unit system to metric
             MinXValue = Math.Round(InchesToMillimeter(_minX), decimalPlaces);  // inches to mm
             MaxXValue = Math.Round(InchesToMillimeter(_maxX), decimalPlaces);
@@ -253,6 +305,77 @@ namespace NetScad.UI.ViewModels
             TotalCubicVolumeScale = Math.Round(VolumeConverter.ConvertFt3ToM3(_totalCubicVolumeScale), decimalPlaces);  // feet to m
             UnitHasChanged = false;
             return Task.CompletedTask;
+        }
+
+        private void ValidateMinMax()
+        {
+            ClearErrors(nameof(MaxXValue));
+            ClearErrors(nameof(MaxYValue));
+            ClearErrors(nameof(MaxZValue));
+            ClearErrors(nameof(MinXValue));
+            ClearErrors(nameof(MinYValue));
+            ClearErrors(nameof(MinZValue));
+
+            var xValid = true;
+            var yValid = true;
+            var zValid = true;
+
+            // X
+            if (MinXValue > 0)
+            {
+                AddError(nameof(MinXValue), "Min X <= 0");
+                xValid = false;
+            }
+            if (MaxXValue < 0)
+            {
+                AddError(nameof(MaxXValue), "Max X >= 0");
+                xValid = false;
+            }
+            if (MinXValue >= MaxXValue)
+            {
+                AddError(nameof(MinXValue), "Min X < Max X");
+                AddError(nameof(MaxXValue), "Max X > Min X");
+                xValid = false;
+            }
+
+            // Y
+            if (MinYValue > 0)
+            {
+                AddError(nameof(MinYValue), "Min Y <= 0");
+                yValid = false;
+            }
+            if (MaxYValue < 0)
+            {
+                AddError(nameof(MaxYValue), "Max Y >= 0");
+                yValid = false;
+            }
+            if (MinYValue >= MaxYValue)
+            {
+                AddError(nameof(MinYValue), "Min Y < Max Y");
+                AddError(nameof(MaxYValue), "Max Y > Min Y");
+                yValid = false;
+            }
+
+            // Z
+            if (MinZValue > 0)
+            {
+                AddError(nameof(MinZValue), "Min Z <= 0");
+                zValid = false;
+            }
+            if (MaxZValue < 0)
+            {
+                AddError(nameof(MaxZValue), "Max Z >= 0");
+                zValid = false;
+            }
+            if (MinZValue >= MaxZValue)
+            {
+                AddError(nameof(MinZValue), "Min Z < Max Z");
+                AddError(nameof(MaxZValue), "Max Z > Min Z");
+                zValid = false;
+            }
+
+            if (xValid && yValid && zValid) { CreateButtonEnabled = true; }
+            else { CreateButtonEnabled = false; }
         }
     }
 }

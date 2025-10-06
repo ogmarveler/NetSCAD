@@ -2,6 +2,7 @@
     x:Class="NetScad.UI.Views.CreateAxesView"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:conv="using:NetScad.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:NetScad.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,7 +18,9 @@
     Background="{DynamicResource WindowBackground}"
     mc:Ignorable="d">
 
-    <UserControl.Styles />
+    <UserControl.Resources>
+        <conv:DoubleConverter x:Key="DoubleConverter" />
+    </UserControl.Resources>
 
     <Grid
         Margin="0"
@@ -169,7 +172,7 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MinXValue}"
+            Text="{Binding MinXValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleConverter}}"
             Watermark="{Binding MinXWatermark}">
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
@@ -205,7 +208,7 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MaxXValue}"
+            Text="{Binding MaxXValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleConverter}}"
             Watermark="{Binding MaxXWatermark}">
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
@@ -241,7 +244,7 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MinYValue}"
+            Text="{Binding MinYValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleConverter}}"
             Watermark="{Binding MinYWatermark}">
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
@@ -276,7 +279,7 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MaxYValue}"
+            Text="{Binding MaxYValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleConverter}}"
             Watermark="{Binding MaxYWatermark}">
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
@@ -312,7 +315,7 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MinZValue}"
+            Text="{Binding MinZValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleConverter}}"
             Watermark="{Binding MinZWatermark}">
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
@@ -347,7 +350,7 @@
             Grid.Column="1"
             Classes="card"
             SelectionBrush="Yellow"
-            Text="{Binding MaxZValue}"
+            Text="{Binding MaxZValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DoubleConverter}}"
             Watermark="{Binding MaxZWatermark}">
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
@@ -409,7 +412,7 @@
             BorderThickness="1"
             Click="_CreateCustomAxisAsync"
             Content="Create Axis"
-            IsEnabled="True">
+            IsEnabled="{Binding CreateButtonEnabled}">
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
                     <TextBlock HorizontalAlignment="Stretch">

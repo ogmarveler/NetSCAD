@@ -71,3 +71,11 @@ module Get_Dark_100x80x120_MM_Orig_N40x0xN40(colorVal = "White", alpha = 1) {
   dark_100x80x120_mm_orig_n40x0xn40(colorVal = colorVal, alpha = alpha);
 }
 
+// 3D Axis Module - Light 100x100x100 MM Orig 0x0x0
+// Calling Method: Get_Get_Light_100x100x100_MM_Orig_0x0x0();
+// Settings: UnitSystem=Metric, BackgroundType=Light, MinX=0, MaxX=100, MinY=0, MaxY=100, MinZ=0, MaxZ=100
+include <light_100x100x100_mm_orig_0x0x0.scad>;
+module Get_Light_100x100x100_MM_Orig_0x0x0(colorVal = "Black", alpha = 1) {
+  light_100x100x100_mm_orig_0x0x0(colorVal = colorVal, alpha = alpha);
+}
+
