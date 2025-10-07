@@ -1,4 +1,5 @@
-﻿## 📐 NetSCAD Axis Guide
+﻿ 
+# ![Logo](Assets/Images/logo.png) NetSCAD Axis Guide
 ###### 
 #### Description
 Welcome to the NetSCAD Axis Guide! This tutorial covers the basics of defining and generating custom axes used in OpenSCAD, a solid 3D CAD modeler. This project aims to simplify the process of creating complex 3D models by providing reusable components and utilities. Currently, it includes automating the creation of custom Imperial and Metric axes. This allows for more precise modeling used in 3D printing.

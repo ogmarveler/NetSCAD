@@ -1,6 +1,10 @@
-﻿using Avalonia;
+﻿using System;
+using System.Linq;
+using System.Threading;
+
+using Avalonia;
 using Avalonia.ReactiveUI;
-using System;
+
 
 namespace NetScad.UI.Desktop
 {
@@ -10,7 +14,9 @@ namespace NetScad.UI.Desktop
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
         // yet and stuff might break.
         [STAThread]
-        public static void Main(string[] args) => BuildAvaloniaApp()
+        public static int Main(string[] args)
+        {
+            var builder = BuildAvaloniaApp()
             .UseSkia() // Skia rendering
             .UsePlatformDetect() // Auto-selects X11, Wayland, etc., on Linux
             .With(new SkiaOptions()) // Limit GPU memory usage
@@ -19,8 +25,19 @@ namespace NetScad.UI.Desktop
             .With(new X11PlatformOptions { RenderingMode = [X11RenderingMode.Glx, X11RenderingMode.Software], OverlayPopups = true, UseDBusMenu = true, WmClass = AppDomain.CurrentDomain.FriendlyName, }) // Enable GPU on Linux
             .WithInterFont() // Use Inter font by default
             .LogToTrace() // Enable logging to Visual Studio output window
-            .UseReactiveUI() // MVVM framework
-            .StartWithClassicDesktopLifetime(args);
+            .UseReactiveUI(); // MVVM framework
+
+            if (args.Contains("--drm"))
+            {
+                SilenceConsole();
+
+                // If Card0, Card1 and Card2 all don't work. You can also try:                 
+                // return builder.StartLinuxFbDev(args);
+                // return builder.StartLinuxDrm(args, "/dev/dri/card1");
+                return builder.StartLinuxDrm(args, "/dev/dri/card1", 1D);
+            }
+            return builder.StartWithClassicDesktopLifetime(args);
+        }
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
@@ -34,5 +51,16 @@ namespace NetScad.UI.Desktop
             .WithInterFont() // Use Inter font by default
             .LogToTrace() // Enable logging to Visual Studio output window
             .UseReactiveUI(); // MVVM framework
+
+        private static void SilenceConsole()
+        {
+            new Thread(() =>
+            {
+                Console.CursorVisible = false;
+                while (true)
+                    Console.ReadKey(true);
+            })
+            { IsBackground = true }.Start();
+        }
     }
 }

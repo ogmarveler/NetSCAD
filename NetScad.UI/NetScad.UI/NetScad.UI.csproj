@@ -46,6 +46,7 @@
     <PackageReference Include="Avalonia" />  
     <PackageReference Include="Avalonia.AvaloniaEdit" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
+    <PackageReference Include="Avalonia.LinuxFramebuffer" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
@@ -61,6 +62,7 @@
     <PackageReference Include="Markdown.Avalonia.Svg" />
     <PackageReference Include="Markdown.Avalonia.SyntaxHigh" />
     <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" />
     <!-- Hot reload packages (conditional on the directive below) -->
 	  
   </ItemGroup>

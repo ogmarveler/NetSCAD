@@ -99,14 +99,15 @@
             Background="{DynamicResource CardBackground}"
             FontSize="18"
             FontWeight="SemiBold"
-            Foreground="{DynamicResource CardForeground}"
-            Text="💬">
+            Foreground="{DynamicResource CardForeground}">
+            <PathIcon Data="{StaticResource chat_help_regular}" />
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Enter X,Y,Z inputs according to the unit type." />
                 </StackPanel>
             </ToolTip.Tip>
         </TextBlock>
+        <!--  Text="💬">  -->
 
         <!--  Change Unit Measure of X, Y, Z  -->
         <Button
@@ -149,15 +150,15 @@
             Background="{DynamicResource CardBackground}"
             FontSize="18"
             FontWeight="SemiBold"
-            Foreground="{DynamicResource CardForeground}"
-            Text="💬">
+            Foreground="{DynamicResource CardForeground}">
+            <PathIcon Data="{StaticResource chat_help_regular}" />
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
                     <TextBlock HorizontalAlignment="Stretch" Text="This is the color scheme set in your OpenSCAD." />
                 </StackPanel>
             </ToolTip.Tip>
         </TextBlock>
-
+        <!--  Text="💬">  -->
         <!--  Min and Max Input Boxes  -->
         <!--  X  -->
         <TextBlock
@@ -430,8 +431,8 @@
             Background="{DynamicResource CardBackground}"
             FontSize="18"
             FontWeight="SemiBold"
-            Foreground="{DynamicResource CardForeground}"
-            Text="💬">
+            Foreground="{DynamicResource CardForeground}">
+            <PathIcon Data="{StaticResource chat_help_regular}" />
             <ToolTip.Tip>
                 <StackPanel Orientation="Vertical">
                     <TextBlock HorizontalAlignment="Stretch">
@@ -442,7 +443,7 @@
                 </StackPanel>
             </ToolTip.Tip>
         </TextBlock>
-
+        <!--  Text="💬">  -->
         <Separator
             Grid.Row="12"
             Grid.ColumnSpan="3"
@@ -534,8 +535,10 @@
             FontSize="18"
             FontWeight="Bold"
             Foreground="{DynamicResource CardForeground}"
-            IsVisible="{Binding AxisDetailsShown}"
-            Text="🧊" />
+            IsVisible="{Binding AxisDetailsShown}">
+            <PathIcon Data="{StaticResource cube_regular}" />
+        </TextBlock>
+        <!--  Text="🧊" />  -->
 
         <!--  Display Axes Calling Method - Needs to be Selectable  -->
 
