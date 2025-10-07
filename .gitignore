@@ -457,3 +457,4 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 
 #Temporary
+/NetScad.UI/NetScad.UI.Linux/Properties/launchSettings.json
