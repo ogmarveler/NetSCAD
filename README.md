@@ -5,7 +5,7 @@ Welcome to the NetSCAD Axis Guide! This tutorial covers the basics of defining a
 ###### 
 #### Prerequisites
 * **You need to have the following installed:** [OpenSCAD](https://openscad.org/downloads.html)
-* **Download the latest release of NetSCAD:** [NetSCAD](https://github.com/ogmarveler/NetSCAD/releases/tag/netscad_v010_winx64)
+* **Download the latest release of NetSCAD:** [NetSCAD](https://github.com/ogmarveler/NetSCAD/releases/tag/netscad_v01_1)
 ###### 
 #### Types of Measurements
 Varying axes of different sizes, measurement types, colors, and combinations of both metric and imperial measurements can be applied within the same SCAD project. Axes are managed in an aggregate SCAD file and are called as modules within your SCAD project. The app manages updates to existing axes as well as provides the ability for multiple axis types to be used in your project. Axis increments are as follows:
