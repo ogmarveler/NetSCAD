@@ -272,7 +272,6 @@ namespace NetScad.UI.ViewModels
         private Task GetAxesList()
         {
             var parser = new ScadParser();
-            //var filePath = Path.Combine(PathHelper.GetProjectRoot(), "Scad", "Axes", "axes.scad");
             var filePath = Path.Combine("Scad", "Axes", "axes.scad");
             AxesList = parser.AxesModulesList(filePath);
             return Task.CompletedTask;

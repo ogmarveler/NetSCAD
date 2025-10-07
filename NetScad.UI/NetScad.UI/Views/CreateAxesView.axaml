@@ -535,7 +535,7 @@
             FontSize="18"
             FontWeight="Bold"
             Foreground="{DynamicResource CardForeground}"
-            IsVisible="{Binding AxisDetailsShown}">
+            IsVisible="True">
             <PathIcon Data="{StaticResource cube_regular}" />
         </TextBlock>
         <!--  Text="🧊" />  -->
@@ -550,8 +550,8 @@
             FontSize="18"
             FontWeight="Bold"
             Foreground="Green"
-            IsVisible="{Binding AxisDetailsShown}"
-            Text="✔" />
+            IsVisible="True"
+            Text="" />
 
         <SelectableTextBlock
             Grid.Row="14"

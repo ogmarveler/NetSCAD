@@ -11,6 +11,7 @@
 	  <SignAssembly>True</SignAssembly>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
+	
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>none</DebugType>
     <IsAotCompatible>True</IsAotCompatible>
@@ -29,17 +30,6 @@
   
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <AvaloniaResource Remove="Assets\Guides\Axis.markdown" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <AvaloniaXaml Remove="Assets\AppResources.axaml" />
-    <AvaloniaXaml Remove="Assets\AppStyles.axaml" />
-    <AvaloniaXaml Remove="Assets\Icons\IconResources.axaml" />
-    <AvaloniaXaml Remove="Assets\Icons\ResourceDictionary.axaml" />
   </ItemGroup>
   
   <ItemGroup>  
@@ -63,8 +53,6 @@
     <PackageReference Include="Markdown.Avalonia.SyntaxHigh" />
     <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" />
-    <!-- Hot reload packages (conditional on the directive below) -->
-	  
   </ItemGroup>
 
 	<ItemGroup>
@@ -72,12 +60,25 @@
     <ProjectReference Include="..\..\NetScad.Core\NetScad.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Assets\Guides\Axis.markdown">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <AvaloniaResource Update="Assets\Icons\IconResources.axaml">
-      <SubType>Designer</SubType>
-    </AvaloniaResource>
-  </ItemGroup>
+<ItemGroup>
+	  <None Update="Scad\Axes\axes.scad">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Scad\Axes\dark_1x3x4_inch_orig_0x0xn2.scad">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Scad\Axes\dark_40x80x120_mm_orig_0x0xn60.scad">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Scad\Axes\light_1x3x4_inch_orig_0x0xn2.scad">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Scad\Axes\light_40x80x120_mm_orig_0x0xn60.scad">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Scad\sample.scad">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

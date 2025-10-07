@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Avalonia.Platform;
 using Markdown.Avalonia;
 using NetScad.UI.ViewModels;
 using ReactiveUI;
@@ -13,17 +14,19 @@ public partial class AxisView : UserControl
     {
         InitializeComponent();
         DataContext = new AxisViewModel();
-        LoadMarkdownAsync(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/Guides/Axis.markdown"));  // Relative or absolute path
+        LoadMarkdownAsync("avares://NetScad.UI/Assets/Guides/Axis.markdown");  // Relative or absolute path
     }
 
-    private async void LoadMarkdownAsync(string filePath)
+    private async void LoadMarkdownAsync(string avaPath)
     {
         try
         {
-            var markdownContent = await File.ReadAllTextAsync(filePath);
+            using var stream = AssetLoader.Open(new Uri(avaPath));
+            using var reader = new StreamReader(stream);
+            var markdownContent = await reader.ReadToEndAsync();
             if (MarkdownView is MarkdownScrollViewer viewer)
             {
-                viewer.Markdown = markdownContent; // Use Markdown property, not Document
+                viewer.Markdown = markdownContent; // Now markdownContent is a string
                 viewer.Plugins.HyperlinkCommand = ReactiveCommand.Create<string>(url =>
                 {
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo

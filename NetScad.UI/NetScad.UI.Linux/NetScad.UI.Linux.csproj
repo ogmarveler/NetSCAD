@@ -4,6 +4,7 @@
     <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
     One for Windows with net8.0-windows TFM, one for MacOS with net8.0-macos and one with net8.0 TFM for Linux.-->
     <TargetFramework>net8.0</TargetFramework>
+	  <AssemblyName>NetSCAD</AssemblyName>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 	  <PublishSingleFile>true</PublishSingleFile>
@@ -37,6 +38,7 @@
     <AvaloniaUseCompiledBindingsByDefault>True</AvaloniaUseCompiledBindingsByDefault>
     <ApplicationIcon>logo.ico</ApplicationIcon>
     <PackageIcon>logo.png</PackageIcon>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -44,16 +46,10 @@
 		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="logo.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\NetScad.UI\Assets\Images\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+	  <AvaloniaResource Include="logo-large.png" />
+	  <AvaloniaResource Include="logo.png" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" />
@@ -65,30 +61,20 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NetScad.UI\NetScad.UI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Scad\Axes\axes.scad">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scad\Axes\dark_1x3x4_inch_orig_0x0xn2.scad">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scad\Axes\dark_40x80x120_mm_orig_0x0xn60.scad">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scad\Axes\light_1x3x4_inch_orig_0x0xn2.scad">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scad\Axes\light_40x80x120_mm_orig_0x0xn60.scad">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scad\sample.scad">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+  <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(ProjectDir)create-tar-linux-arm64.bat" />
+  </Target>-->
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(ProjectDir)create-tar-linux-x64.bat" />
+  </Target>
+
+
 </Project>

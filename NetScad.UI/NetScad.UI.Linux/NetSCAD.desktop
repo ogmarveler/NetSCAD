@@ -1,0 +1,8 @@
+﻿[Desktop Entry]
+Name=NetSCAD
+Exec=NetSCAD
+Type=Application
+Terminal=false
+Icon=logo.png
+Comment=NetSCAD App
+Categories=Utility;
