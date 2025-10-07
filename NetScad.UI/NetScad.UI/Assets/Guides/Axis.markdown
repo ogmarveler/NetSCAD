@@ -1,13 +1,13 @@
 ﻿## 📐 NetSCAD Axis Guide
 ###### 
 #### Description
-Welcome to the NetSCAD Axis Guide! This tutorial covers the basics of defining and generating custom axes used in OpenSCAD, a solid 3D CAD modeller. This project aims to simplify the process of creating complex 3D models by providing reusable components and utilities. Currently, it includes automating the creation of custom Imperial and Metric axes. This allows for more precise 3D modeling used in 3D printing.
+Welcome to the NetSCAD Axis Guide! This tutorial covers the basics of defining and generating custom axes used in OpenSCAD, a solid 3D CAD modeler. This project aims to simplify the process of creating complex 3D models by providing reusable components and utilities. Currently, it includes automating the creation of custom Imperial and Metric axes. This allows for more precise modeling used in 3D printing.
 ###### 
 #### Prerequisites
 * **You need to have the following installed:** [OpenSCAD](https://openscad.org/downloads.html)
 ###### 
 #### Types of Measurements
-Varying axes of different sizes, measurement types, colors, and combination of both metric and imperial measurements can be applied within the same SCAD project. Axes are managed in an aggregate SCAD file and are called as modules within your SCAD project. The app manages updates to existing axes as well as provides the ability for multiple axis types to be used in your project. Axis increments are as follows:
+Varying axes of different sizes, measurement types, colors, and combinations of both metric and imperial measurements can be applied within the same SCAD project. Axes are managed in an aggregate SCAD file and are called as modules within your SCAD project. The app manages updates to existing axes as well as provides the ability for multiple axis types to be used in your project. Axis increments are as follows:
 ###### 
 * **Metric axis** - 20mm, 10mm, 5mm, and 1mm increments
 * **Imperial axis** - 1/4", 1/8", 1/16", and 1/32" increments
@@ -25,15 +25,15 @@ The Custom Axes Builder has 3 main visual sections: Custom Axes Builder, Generat
 | 1. Open the **Axes** menu and select **Create New Axes**                      |                                         |               |
 | 2. Select the **Unit Type**                                                   | Metric (mm) or Imperial (in)            | Metric (mm)   |
 | 3. Select the **OpenSCAD** theme used in OpenSCAD                             | Light Theme or Dark Theme               | Light Theme   |
-| 4. Enter numeric **Min X** value                                              | Min X **<=** to 0 and Min X **<** Max X | 0 (mm or in)  |
-| 5. Enter numeric **Max X** value                                              | Max X **>=** to 0 and Max X **>** Min X | 300mm or 12"  |
-| 6. Enter numeric **Min Y** value                                              | Min Y **<=** to 0 and Min Y **<** Max Y | 0 (mm or in)  |
-| 7. Enter numeric **Max Y** value                                              | Max Y **>=** to 0 and Max Y **>** Min Y | 300mm or 12"  |
-| 8. Enter numeric **Min Z** value                                              | Min Z **<=** to 0 and Min Z **<** Max Z | 0 (mm or in)  |
-| 9. Enter numeric **Max Z** value                                              | Max Z **>=** to 0 and Max Z **>** Min Z | 300mm or 12"  |
+| 4. Enter numeric **Min X** value                                              | Min X **<=** 0 and Min X **<** Max X    | 0 (mm or in)  |
+| 5. Enter numeric **Max X** value                                              | Max X **>=** 0 and Max X **>** Min X    | 300mm or 12"  |
+| 6. Enter numeric **Min Y** value                                              | Min Y **<=** 0 and Min Y **<** Max Y    | 0 (mm or in)  |
+| 7. Enter numeric **Max Y** value                                              | Max Y **>=** 0 and Max Y **>** Min Y    | 300mm or 12"  |
+| 8. Enter numeric **Min Z** value                                              | Min Z **<=** 0 and Min Z **<** Max Z    | 0 (mm or in)  |
+| 9. Enter numeric **Max Z** value                                              | Max Z **>=** 0 and Max Z **>** Min Z    | 300mm or 12"  |
 | 10. Click the **Create Axis** button to generate the defined axis             |                                         |               |
 | 11. To revert to default settings, click the **Clear** button                 |                                         |               |
-| 12. Call the new axis using the **Calling Method**                            | Optional parameters: (colorVal, alpha)  | Theme-based   |
+| 12. Call the new axis using the **Calling Method**                            | Optional params: (colorVal, alpha)      | Theme-based   |
 | 13. To view output files, open the **Scad/Axes folder** in the app's directory|                                         |               |
 ###### 
 #### Usage of Custom Axes in OpenSCAD
