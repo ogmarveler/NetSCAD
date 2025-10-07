@@ -4,10 +4,30 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
-		<PublishSingleFile>true</PublishSingleFile>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<PublishTrimmed>true</PublishTrimmed>
 		<TrimMode>copyused</TrimMode>
+		<PublishAot>true</PublishAot>
+		<SignAssembly>True</SignAssembly>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DebugType>none</DebugType>
+	  <IsTrimmable>True</IsTrimmable>
+	  <Optimize>True</Optimize>
+	  <IsAotCompatible>True</IsAotCompatible>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DebugType>none</DebugType>
+	  <IsTrimmable>True</IsTrimmable>
+	  <IsAotCompatible>True</IsAotCompatible>
 	</PropertyGroup>
 
 	<ItemGroup>

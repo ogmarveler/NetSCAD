@@ -13,7 +13,7 @@
     x:CompileBindings="True"
     x:DataType="vm:MainWindowViewModel"
     Background="{DynamicResource WindowBackground}"
-    Icon="/Assets/Images/logo.png"
+    Icon="/Assets/Images/logo.ico"
     mc:Ignorable="d">
 
     <Design.DataContext>
@@ -39,12 +39,11 @@
                         <PathIcon Data="{StaticResource arrow_expand_regular}" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{Binding OpenCommand}" Header="_Output Folder">
+                <!--<MenuItem Command="{Binding OpenCommand}" Header="_Output Folder">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource folder_open_regular}" />
                     </MenuItem.Icon>
-                </MenuItem>
-                <Separator />
+                </MenuItem>-->
             </MenuItem>
             <MenuItem Header="_Appearance">
                 <MenuItem Command="{Binding ToggleCommand}" Header="_Switch Theme">
@@ -53,8 +52,8 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Help">
-                <MenuItem Command="{Binding AboutCommand}" Header="_About">
+            <MenuItem Header="_Guides">
+                <MenuItem Command="{Binding AxisViewCommand}" Header="_Axis">
                     <MenuItem.Icon>
                         <PathIcon Data="{StaticResource book_question_mark_regular}" />
                     </MenuItem.Icon>
@@ -69,12 +68,10 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
-                <!--  Side Drawer  -->
-                <ColumnDefinition Width="Auto" />
-                <!--  Main content  -->
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <!--  Main View - SPA  -->
@@ -87,14 +84,16 @@
                 BorderThickness="2"
                 BoxShadow="1 1 2 0 Gray"
                 Classes="card_main">
-                <StackPanel Classes="card">
-                    <ContentControl
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        Content="{Binding MainViewContent}" />
-                </StackPanel>
+                <ScrollViewer>
+                    <StackPanel Classes="card">
+                        <ContentControl
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Content="{Binding MainViewContent}" />
+                    </StackPanel>
+                </ScrollViewer>
             </Border>
 
         </Grid>

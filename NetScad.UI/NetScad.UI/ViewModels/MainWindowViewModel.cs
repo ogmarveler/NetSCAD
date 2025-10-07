@@ -10,7 +10,7 @@ namespace NetScad.UI.ViewModels
     public class MainWindowViewModel : ReactiveObject
     {
         // Set MainView as the initial content
-        private object _mainViewContent = new AboutView();
+        private object _mainViewContent = new AxisView();
 
         //public MainWindowViewModel() => _mainViewContent = new MainView();
         public MainWindowViewModel()
@@ -20,7 +20,7 @@ namespace NetScad.UI.ViewModels
             NewCommand = ReactiveCommand.Create(LoadCreateAxesView);
             OpenCommand = ReactiveCommand.Create(() => { using Task _ = new MainWindow().OpenFolderAsync(); });
             ToggleCommand = ReactiveCommand.Create(ToggleTheme);
-            AboutCommand = ReactiveCommand.Create(LoadAboutView);
+            AxisViewCommand = ReactiveCommand.Create(LoadAxisView);
         }
 
         public object MainViewContent
@@ -31,7 +31,7 @@ namespace NetScad.UI.ViewModels
 
         // SPA - Swap out views
         public void LoadCreateAxesView() => MainViewContent = new CreateAxesView();
-        public void LoadAboutView() => MainViewContent = new AboutView();
+        public void LoadAxisView() => MainViewContent = new AxisView();
 
         public void ToggleTheme() => Application.Current?.RequestedThemeVariant =
                 Application.Current.ActualThemeVariant == ThemeVariant.Light
@@ -40,7 +40,7 @@ namespace NetScad.UI.ViewModels
 
         public ICommand NewCommand { get; }
         public ICommand OpenCommand { get; }
-        public ICommand AboutCommand { get; }
+        public ICommand AxisViewCommand { get; }
         public ICommand ToggleCommand { get; }
     }
 }

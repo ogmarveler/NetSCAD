@@ -610,6 +610,6 @@
             GridLinesVisibility="All"
             IsReadOnly="True"
             ItemsSource="{Binding AxesList}"
-            SelectionMode="Extended" />
+            SelectionMode="Single" />
     </Grid>
 </UserControl>

@@ -4,10 +4,29 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <PublishSingleFile>true</PublishSingleFile>
 	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	  <PublishTrimmed>true</PublishTrimmed>
 	  <TrimMode>copyused</TrimMode>
+	  <PublishAot>true</PublishAot>
+	  <SignAssembly>True</SignAssembly>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <DebugType>none</DebugType>
+    <IsAotCompatible>True</IsAotCompatible>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsTrimmable>True</IsTrimmable>
+    <DebugType>none</DebugType>
+    <IsAotCompatible>True</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +39,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NetScad.Core\NetScad.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.markdown">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="Scad\sample.scad">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

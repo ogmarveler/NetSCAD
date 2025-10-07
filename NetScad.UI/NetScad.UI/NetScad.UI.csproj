@@ -4,14 +4,35 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-	  <PublishSingleFile>true</PublishSingleFile>
 	  <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	  <PublishTrimmed>true</PublishTrimmed>
 	  <TrimMode>copyused</TrimMode>
+	  <PublishAot>true</PublishAot>
+	  <SignAssembly>True</SignAssembly>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>none</DebugType>
+    <IsAotCompatible>True</IsAotCompatible>
+    <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
+    <IsAotCompatible>True</IsAotCompatible>
+    <IsTrimmable>True</IsTrimmable>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
   
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <AvaloniaResource Remove="Assets\Guides\Axis.markdown" />
   </ItemGroup>
   
   <ItemGroup>
@@ -22,7 +43,8 @@
   </ItemGroup>
   
   <ItemGroup>  
-    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia" />  
+    <PackageReference Include="Avalonia.AvaloniaEdit" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
@@ -33,22 +55,25 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Avalonia.ReactiveUI" />
+    <PackageReference Include="AvaloniaEdit.TextMate" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Markdown.Avalonia" />
+    <PackageReference Include="Markdown.Avalonia.Svg" />
+    <PackageReference Include="Markdown.Avalonia.SyntaxHigh" />
     <PackageReference Include="Microsoft.NET.ILLink.Tasks" />
     <!-- Hot reload packages (conditional on the directive below) -->
 	  
   </ItemGroup>
 
 	<ItemGroup>
-		<AvaloniaResource Include="..\..\NetScad.Axis\README.markdown" />
-	</ItemGroup>
-	
-	<ItemGroup>
     <ProjectReference Include="..\..\NetScad.Axis\NetScad.Axis.csproj" />
     <ProjectReference Include="..\..\NetScad.Core\NetScad.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Assets\Guides\Axis.markdown">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <AvaloniaResource Update="Assets\Icons\IconResources.axaml">
       <SubType>Designer</SubType>
     </AvaloniaResource>

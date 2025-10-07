@@ -115,13 +115,13 @@ Inch4.ToMm(3); // 3/4" or 19.05mm
 ```
 
 ## Output
-The structure of the axis SCAD files are as follows. Only one reference in your main SCAD files needs to be made, and this is to the ``Axis/axes.scad`` file that stores all of the generated axis modules. You will need to apply the statement ``use <Axis/axes.scad>;`` in your main file, and then just simply call the axis module of your choice. The module can be called without any arguments, or with a different ``color`` and/or ``alpha`` parameters.
+The structure of the axis SCAD files are as follows. Only one reference in your main SCAD files needs to be made, and this is to the ``Axes/axes.scad`` file that stores all of the generated axis modules. You will need to apply the statement ``use <Axes/axes.scad>;`` in your main file, and then just simply call the axis module of your choice. The module can be called without any arguments, or with a different ``color`` and/or ``alpha`` parameters. A ``sample.scad`` file is included as well with some examples of applying axes to a SCAD file.
 
-
-| Files                       | In Your SCAD File       | Optional parameters |
-| --------------------------- |:-----------------------:| -------------------:|
-| Axis/axes.scad              | use <Axis/axes.scad>;   |                     |
-| Axis/custom__axis_name.scad | Get_Custom_Axis_Name(); | colorVal, alpha     |
+| Files                           | Usage In Your SCAD File | Optional parameters |
+| ------------------------------- |:-----------------------:|:-------------------:|
+| Scad/Axes/axes.scad             | use <Axes/axes.scad>;   |                     |
+| Scad/Axes/custom_axis_name.scad | Get_Custom_Axis_Name(); | colorVal, alpha     |
+| Scad/sample.scad                |                         |                     |
 
 
 ## Examples

@@ -157,4 +157,23 @@
         <Setter Property="ShowDelay" Value="0" />
     </Style>
 
+    <Style Selector="TextBlock">
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style Selector="TextBlock.markdown-paragraph">
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="TextBlock.markdown-heading">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemAccentColor}" />
+    </Style>
+    <Style Selector="TextBlock.markdown-codeblock">
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+    <Style Selector="TextBlock.markdown-hyperlink">
+        <Setter Property="Foreground" Value="{DynamicResource SystemAccentColor}" />
+        <Setter Property="TextDecorations" Value="Underline" />
+    </Style>
+
 </Styles>

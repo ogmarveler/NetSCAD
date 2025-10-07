@@ -3,6 +3,7 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using NetScad.Core.Utility;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -45,21 +46,26 @@ namespace NetScad.UI.ViewModels
         }
 
         [RelayCommand]
-        public Task OpenFolderAsync()
+        public async Task OpenFolderAsync()
         {
             if (string.IsNullOrEmpty(_folderPath))
             {
-                return Task.CompletedTask;
+                _folderPath = Path.Combine(PathHelper.GetProjectRoot(), "Scad");
             }
+
+           
+            
 
             try
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
+                    var folderPath = await _parentWindow.StorageProvider.TryGetFolderFromPathAsync(AppDomain.CurrentDomain.BaseDirectory);
+                   //_folderPath = Path.Combine(folderPath.TryGetLocalPath(),"NetSCAD","Scad"); // Disabled for now
                     Process.Start(new ProcessStartInfo
                     {
                         FileName = "explorer.exe",
-                        Arguments = $"\"{_folderPath}\"",
+                        Arguments = $"/select, \"{_folderPath}\"",
                         UseShellExecute = true
                     });
                 }
@@ -87,7 +93,6 @@ namespace NetScad.UI.ViewModels
                 // Handle exceptions silently to avoid UI disruption
             }
 
-            return Task.CompletedTask;
         }
     }
 }

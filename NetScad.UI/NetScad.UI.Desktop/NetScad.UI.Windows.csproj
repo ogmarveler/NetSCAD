@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <!--If you are willing to use Windows/MacOS native APIs you will need to create 3 projects.
     One for Windows with net8.0-windows TFM, one for MacOS with net8.0-macos and one with net8.0 TFM for Linux.-->
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 	  <PublishSingleFile>true</PublishSingleFile>
@@ -14,7 +14,45 @@
 
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PlatformTarget>x64</PlatformTarget>
+    <PublishAot>False</PublishAot>
+    <SignAssembly>True</SignAssembly>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <StartupObject>NetScad.UI.Desktop.Program</StartupObject>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>True</Optimize>
+    <IsPublishable>True</IsPublishable>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsPublishable>True</IsPublishable>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Avalonia">
+    <AvaloniaUseCompiledBindingsByDefault>True</AvaloniaUseCompiledBindingsByDefault>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+    <PackageIcon>logo-netscad.png</PackageIcon>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\NetScad.UI\Assets\Images\logo-netscad.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" />
@@ -29,5 +67,26 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NetScad.UI\NetScad.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Scad\Axes\axes.scad">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scad\Axes\dark_1x3x4_inch_orig_0x0xn2.scad">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scad\Axes\dark_40x80x120_mm_orig_0x0xn60.scad">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scad\Axes\light_1x3x4_inch_orig_0x0xn2.scad">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scad\Axes\light_40x80x120_mm_orig_0x0xn60.scad">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scad\sample.scad">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

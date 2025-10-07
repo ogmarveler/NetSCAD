@@ -2,8 +2,8 @@ using ReactiveUI;
 
 namespace NetScad.UI.ViewModels
 {
-	public class AboutViewModel : ReactiveObject
+	public class AxisViewModel : ReactiveObject
 	{
-
+       
     }
 }

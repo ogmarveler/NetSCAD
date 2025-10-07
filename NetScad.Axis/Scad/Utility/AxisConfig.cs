@@ -3,7 +3,6 @@ using NetScad.Core.Utility;
 using static NetScad.Axis.SCAD.Models.Colors;
 using static NetScad.Core.Measurements.FractionalInch;
 using static NetScad.Core.Measurements.Selector;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace NetScad.Axis.SCAD.Utility
 {

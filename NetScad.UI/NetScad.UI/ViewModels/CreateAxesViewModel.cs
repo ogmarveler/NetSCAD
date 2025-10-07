@@ -192,7 +192,8 @@ namespace NetScad.UI.ViewModels
                     UnitHasChanged = true; // To prevent converting inches to mm twice
                 }
                 var axisSettings = new AxisSettings(
-                 outputDirectory: PathHelper.GetProjectRoot(), // ..NetScad.UI.<Platform>/Scad/Axes
+                 //outputDirectory: PathHelper.GetProjectRoot(), // ..NetScad.UI.<Platform>/Scad/Axes
+                 outputDirectory: "", // ..NetScad.UI.<Platform>/Scad/Axes
                  backgroundType: _selectedBackground,
                  measureType: _selectedUnit,
                  minX: _minX,
@@ -271,7 +272,8 @@ namespace NetScad.UI.ViewModels
         private Task GetAxesList()
         {
             var parser = new ScadParser();
-            var filePath = Path.Combine(PathHelper.GetProjectRoot(), "Scad", "Axes", "axes.scad");
+            //var filePath = Path.Combine(PathHelper.GetProjectRoot(), "Scad", "Axes", "axes.scad");
+            var filePath = Path.Combine("Scad", "Axes", "axes.scad");
             AxesList = parser.AxesModulesList(filePath);
             return Task.CompletedTask;
         }
