@@ -1,11 +1,11 @@
 ﻿using NetScad.Core.Measurements;
 using NetScad.Core.Utility;
 using System.Text;
-using static NetScad.Axis.SCAD.Models.Primitive;
 using static NetScad.Axis.SCAD.Utility.AxisConfig;
 using static NetScad.Axis.SCAD.Utility.BlockStatement;
 using static NetScad.Core.Measurements.Selector;
 using static NetScad.Core.Measurements.Conversion;
+using NetScad.Core.Primitives;
 
 namespace NetScad.Axis.SCAD.Modules
 {
@@ -182,24 +182,24 @@ namespace NetScad.Axis.SCAD.Modules
             sb.AppendLine($"// {axMod.ModuleName} {axSet.UnitSystem} {AxisModuleFormats.ModuleComments}");
             sb.AppendLine($"module {axMod.ModuleName.ToLower()}(colorVal, alpha) {{");
             sb.AppendLine($"    color(colorVal, alpha) {{"); // Wrap all in color
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker}   }}");  // X Axis Marker
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker}   }}");  // Y Axis Marker
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker}   }}");  // Z Axis Marker
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX2, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker2}   }}");  // X Axis Marker 2
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY2, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker2}   }}");  // Y Axis Marker 2
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ2, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker2}   }}");  // Z Axis Marker 2
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX3, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker3}   }}");  // X Axis Marker 3
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY3, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker3}   }}");  // Y Axis Marker 3
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ3, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker3}   }}");  // Z Axis Marker 3
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX4, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker4}   }}");  // X Axis Marker 4
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY4, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker4}   }}");  // Y Axis Marker 4
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ4, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker4}   }}");  // Z Axis Marker 4
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker}   }}");  // X Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker}   }}");  // Y Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker}   }}");  // Z Axis Marker
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX2, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker2}   }}");  // X Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY2, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker2}   }}");  // Y Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ2, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker2}   }}");  // Z Axis Marker 2
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX3, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker3}   }}");  // X Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY3, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker3}   }}");  // Y Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ3, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker3}   }}");  // Z Axis Marker 3
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "x", range: [axSet.MinX, axSet.IncrementX4, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetMarker4}   }}");  // X Axis Marker 4
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "y", range: [axSet.MinY, axSet.IncrementY4, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetMarker4}   }}");  // Y Axis Marker 4
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "z", range: [axSet.MinZ, axSet.IncrementZ4, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetMarker4}   }}");  // Z Axis Marker 4
             sb.AppendLine($"         // Axis Labels"); // Create the Axis Markers - main marker used for measurements, half and quarter markers for visual reference
             sb.AppendLine($"         unit = \"{unit}\";"); // Set unit for labels
             sb.AppendLine($"         scale = {scale};\n"); // Set scale for labels
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axSet.MinX, axSet.IncrementX, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetLabel}   }}");  // X Axis Label
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axSet.MinY, axSet.IncrementY, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetLabel}   }}");  // Y Axis Label
-            sb.AppendLine($"         {GetIterationHeader(scope: Iteration.For, iterator: "i", range: [axSet.MinZ, axSet.IncrementZ, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetLabel}   }}");  // Z Axis Label
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "i", range: [axSet.MinX, axSet.IncrementX, axSet.MaxX])}{{   {AxisModuleFormats.XOffsetLabel}   }}");  // X Axis Label
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "i", range: [axSet.MinY, axSet.IncrementY, axSet.MaxY])}{{   {AxisModuleFormats.YOffsetLabel}   }}");  // Y Axis Label
+            sb.AppendLine($"         {GetIterationHeader(scope: OScadIteration.For, iterator: "i", range: [axSet.MinZ, axSet.IncrementZ, axSet.MaxZ])}{{   {AxisModuleFormats.ZOffsetLabel}   }}");  // Z Axis Label
             sb.AppendLine($"  }}");
             sb.AppendLine($"}}");
             sb.AppendLine($"// End of {axMod.ModuleName} Module");
